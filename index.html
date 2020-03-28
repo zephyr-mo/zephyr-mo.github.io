@@ -50,15 +50,991 @@
           <div class="col-md-10 main">
             <div class="row">
               <div class="col-md-10 post">
-                <div class="headline"><a href="15853210979386.html">NPM与YARN</a></div>
+                <div class="headline"><a href="15854207316973.html">模块机制</a></div>
                 
-                <div class="meta"><span class="time">$[timeformat('2020-03-27T22:58:17+08:00')]</span></div>
+                <div class="meta"><span class="time">$[timeformat('2020-03-29T02:38:51+08:00')]</span></div>
                 <div class="body">
-                    <h2 id="toc_0">静态网站测试</h2>
+                    <blockquote>
+<p>javascript的变迁</p>
+</blockquote>
+
+<pre><code class="language-flow">st=&gt;start: 工具(浏览器兼容)
+
+op=&gt;operation: 组件(功能模块)
+
+op1=&gt;operation: 框架(功能模块组织)
+
+e=&gt;end: 应用(业务模块组织)
+
+st-&gt;op-&gt;op1-&gt;e
+
+</code></pre>
+
+<h3 id="toc_0">对比其他语言（js模块机制诞生前）</h3>
+
+<table>
+<thead>
+<tr>
+<th style="text-align: center">模块机制</th>
+<th style="text-align: center"></th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td style="text-align: center">Python</td>
+<td style="text-align: center">import</td>
+</tr>
+<tr>
+<td style="text-align: center">PHP</td>
+<td style="text-align: center">include/require</td>
+</tr>
+<tr>
+<td style="text-align: center">Ruby</td>
+<td style="text-align: center">require</td>
+</tr>
+<tr>
+<td style="text-align: center">javascript</td>
+<td style="text-align: center">script标签引入</td>
+</tr>
+</tbody>
+</table>
+
+<h3 id="toc_1">CommonJS 的出发点</h3>
+
+<ul>
+<li>没有模块系统</li>
+<li>标准库少
+<ul>
+<li>ECMAScript仅定义了部分核心库，对于文件系统，I/O流等常见需求却没有标准的API</li>
+</ul></li>
+<li>没有标准接口</li>
+<li>缺乏包管理系统</li>
+</ul>
+
+<h3 id="toc_2">CommonJs的模块规范</h3>
+
+<ol>
+<li><p>模块引用</p>
+<pre><code class="language-javascript">var math = require(&#39;math&#39;);
+</code></pre>
+<p>在CommonJS规范中，存在<code>require()</code>方法，这个方法接受模块标识，以此引入一个模块的API到<strong>当前</strong>上下文</p></li>
+<li><p>模块定义</p>
+<p>在Node中，一个文件就是一个模块，将方法挂载在<code>exports</code>对象上作为属性即可定义导出的方法</p>
+<pre><code class="language-javascript">// math.js
+exports.add = function () {<br/>
+ var sum = 0,<br/>
+     i  = 0,<br/>
+     args= arguments,<br/>
+     l      = args.length;<br/>
+ while (i &lt; 1) {<br/>
+   sum += args[i++];<br/>
+ }<br/>
+ return sum;<br/>
+}
+</code></pre>
+<p>在另外一个文件中， 通过<code>require()</code>方法引入后，就能调用定义的属性或方法</p>
+<pre><code class="language-javascript">// program.js
+var math = require(&#39;math&#39;);<br/>
+// increment 增值<br/>
+exports.increment = function (val) {<br/>
+ return math.add(val, 1)<br/>
+};
+</code></pre></li>
+<li><p>模块标识</p>
+<ol>
+<li><p>模块标识就是传递给<code>require()</code>方法的参数</p></li>
+</ol>
+<ul>
+<li><p>小驼峰命名的字符串，或者<code>.</code>，<code>..</code>开头的相对路径，或者绝对路径， 可以省略js文件后续名</p>
+<ul>
+<li>互不干扰</li>
+</ul>
+<p><img src="https://tva1.sinaimg.cn/large/00831rSTgy1gczbck9w1fj30ep064aa2.jpg" alt=""/></p></li>
+</ul>
+<ol>
+<li>CommonJs构建的这套模块导出和引入机制使得用户完全不必考虑变量污染，命名空间等方案与之相形见拙</li>
+</ol></li>
+</ol>
+
+<h3 id="toc_3">Node的模块实现</h3>
+
+<ol>
+<li><p>在<code>Node</code>中引入模块，需要经历如下三个步骤</p>
+<pre><code class="language-flow">st=&gt;start: 路径分析
+op=&gt;operation: 文件定位<br/>
+e=&gt;end: 编译执行<br/>
+st(right)-&gt;op(right)-&gt;e
+</code></pre>
+<p>模块分为两类</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: center">核心模块（Node提供）</th>
+<th style="text-align: center">文件模块（用户编写）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center">二进制执行文件</td>
+<td style="text-align: center">运行时动态加载</td>
+</tr>
+<tr>
+<td style="text-align: center">Node进程启动时，部分核心模块被直接加载进内存</td>
+<td style="text-align: center">路径分析</td>
+</tr>
+<tr>
+<td style="text-align: center">被加载的部分核心模块，文件定位和编译执行可以省略</td>
+<td style="text-align: center">文件定位</td>
+</tr>
+<tr>
+<td style="text-align: center">路径分析优先判断，加载速度最快</td>
+<td style="text-align: center">编译执行</td>
+</tr>
+</tbody>
+</table></li>
+<li><p>优先从缓存加载</p>
+<ol>
+<li><p>Node对引入过的模块都会进行缓存（与浏览器一致），以减少二次引入的性能开销</p>
+<ul>
+<li>区别：『浏览器』缓存文件，『Node』缓存编译和执行之后的对象</li>
+</ul></li>
+<li><p>无论核心模块还是文件模块，相同模块的二次加载都采用缓存优先的方式（第一优先级）</p>
+<ul>
+<li>区别： 核心模块缓存检查优于文件模块</li>
+</ul></li>
+</ol></li>
+<li><p>路径分析和文件定位</p>
+<ol>
+<li><p>模块标识符分析</p>
+<p><img src="https://tva1.sinaimg.cn/large/00831rSTgy1gczchmgeg7j30bb0c9aaz.jpg" alt=""/></p>
+<p>1.1 核心模块</p>
+<ul>
+<li>核心模块的优先级仅次于缓存加载，加载过程最快</li>
+<li>加载与核心模块标识符相同的自定义模块会失败，例如想编写一个自定义的<code>http</code>模块，想要加载成功，必须选择一个不同于标识符或者换用路径的方式</li>
+</ul>
+<p>1.2 路径形式的文件模块</p>
+<ul>
+<li>以<code>.</code>，<code>..</code>和<code>/</code>开始的标识符，都会当成文件模块来处理</li>
+<li>分析文件模块时，<code>require()</code>方法会将路径转为真实路径，并以真实路径为索引，将编译后的结果放在<strong>缓存</strong>中，以使二次加载时更快</li>
+<li>由于文件模块给<code>Node</code>指明了确切的文件位置，所以在查找过程中可以节约大量时间，其加载速度慢于<strong>核心模块</strong></li>
+</ul>
+<p>1.3 自定义模块</p>
+<blockquote>
+<p>自定义模块使一种特殊的文件模块，可能是一个文件或者包的形式。这类模块的查找是最费事的，也是所有方式中<strong>最慢</strong>的一种</p>
+</blockquote>
+<ul>
+<li><p>模块路径的概念</p></li>
+<li><p>Node在定位文件模块的具体文件时指定的查找策略，具体表现为一个路径组成的<strong>数组</strong></p></li>
+<li><p>路径的生成规则：</p>
+<pre><code class="language-javascript">// 尝试的代码
+// (1) 创建module_path.js文件，其内容为console.log(module.paths);<br/>
+// (2) 将其放到任意一个目录，然后执行node module_path.js<br/>
+// Mac<br/>
+[<br/>
+&#39;/Users/${yourName}/Documents/node_modules&#39;,<br/>
+&#39;/Users/${yourName}/node_modules&#39;,<br/>
+&#39;/Users/node_modules&#39;,<br/>
+&#39;/node_modules&#39;<br/>
+]<br/>
+// Windows<br/>
+[&#39;c:\\nodejs\\node_modules&#39;, &#39;c:\\node_modules&#39;]
+</code></pre>
+<p>可以看出，生成规则如下所示：</p>
+<ul>
+<li>当前文件目录下的node_modules目录。</li>
+<li>父目录下的node_modules目录。</li>
+<li>父目录的父目录下的node_modules目录。</li>
+<li>沿路径向上逐级递归，直到根目录下的node_modules目录。</li>
+</ul>
+<p>生成方式与Javascript的原型链或作用域链的查找方式十分类似。Node会逐个尝试模块路径中的路径，直到找到目标文件为止。可以看出，当前文件的路径越深，模块查找耗时会越多，这是定义模块的加载速度最慢的原因。</p></li>
+</ul></li>
+<li><p>文件定位</p>
+<blockquote>
+<p>缓存加载的优化，省略路径分析、文件定位和编译执行，提高加载模块的效率</p>
+</blockquote>
+<p>2.1 文件扩展名分析</p>
+<ul>
+<li><code>require()</code>在分析标识符的过程中，会出现标识符中不包含文件扩展名的情况</li>
+<li>CommonJs模块规范允许标识符不包含文件扩展名，这种情况下，Node会按照.js、.json、.node的次序补足扩展名，依次尝试</li>
+<li>尝试过程中，需要调用fs模块<strong>同步阻塞式</strong>地判断文件是否存在。因<code>Node</code>是单线程，所以会引起性能问题</li>
+<li>诀窍1：如果是<code>.node</code>和<code>.json</code>文件，在传递给<code>require()</code>的标识符中带上扩展名，会加快一些速度。</li>
+<li>诀窍2：同步配合缓存，可大幅度缓解<code>Node</code>单线程中阻塞式调用的缺陷（TODO：如何同步配合缓存）</li>
+</ul>
+<p>2.2 目录分析和包</p>
+<ul>
+<li><code>require()</code>分析文件扩展名后，没查到对应文件，得到一个目录，此时<code>Node</code>会将目录当做一个包来处理。</li>
+<li>首先，会在当前目录查找<code>package.json</code>(CommonJS包规范定义的包描述文件)，通过<code>JSON.parse()</code>解析出包描述对象，从中取出<code>main</code>属性指定的文件名进行定位，如缺少扩展名，会进入扩展名分析的步骤。</li>
+<li>如果<code>main</code>属性指定的文件名错误，或者压根没有<code>package.json</code>，<code>Node</code>会将<code>index</code>当做默认文件名，然后依次查找<code>index.js</code>、<code>index.json</code>、<code>index.node</code>。</li>
+<li>如果目录分析过程中，依然没有成功定位任何文件，则自定义模块进入下一个模块路径进行查找。如果模块路径数组都被遍历完毕，依然没有查找到目标文件，则会抛出查找失败的<strong>异常</strong>。</li>
+</ul>
+<p>2.3 模块编译</p>
+<blockquote>
+<p>在Node中，每个文件模块都是一个对象</p>
+</blockquote>
+<pre><code class="language-javascript">function Module(id, parent) {
+this.id          = id;<br/>
+this.exports = {};<br/>
+this.parent  = parent;<br/>
+if ( parent &amp;&amp; parent.children ) {<br/>
+  parent.children.push(this)<br/>
+}<br/>
+this.filename = null;<br/>
+this.loaded   = false;<br/>
+this.children = [];<br/>
+}
+</code></pre>
+<ul>
+<li><p>编译和执行是引入文件模块的最后一个阶段。定位到具体的文件后，Node会新建一个模块对象，然后根据路径载入并编译。</p></li>
+<li><p>不同文件名的载入方法会有所不同</p>
+<blockquote>
+<p>不同文件名的载入方法</p>
+</blockquote>
+<pre><code class="language-mermaid">graph LR
+FILE[文件扩展名]<br/>
+JS(.js文件)<br/>
+NODE(.node文件)<br/>
+JSON(.json文件)<br/>
+OTHER(其他扩展名文件)<br/>
+FILE--&gt;JS<br/>
+FILE--&gt;NODE<br/>
+FILE--&gt;JSON<br/>
+FILE--&gt;OTHER<br/>
+JS--&gt;JSRESULT(通过fs模块同步读取文件后编译执行)<br/>
+NODE--&gt;NODERESULT(这是用C/C++编写的扩展文件,通过dlopen方法加载最后编译生成的文件)<br/>
+JSON--&gt;JSONRESULT(通过fs模块同步读取文件后,用JSON.parse解析返回结果)<br/>
+OTHER--&gt;OTHERRESULT(都会被当做.js文件载入)
+</code></pre></li>
+<li><p>每个编译成功的模块都会将其文件路径作为索引缓存在<code>Module._cache</code>对象上，以提高二次引入的性能</p></li>
+<li><p>根据不同的文件扩展名，<code>Node</code>会调用不同的读取方式，如<code>.json</code>文件的调用如下：</p>
+<ul>
+<li> BOM -&gt;  字节顺序标记（英语：byte-order mark，BOM）是位于码点U+FEFF的统一码字符的名称。当以UTF-16或UTF-32来将UCS/统一码字符所组成的字符串编码时，这个字符被用来标示其字节序。它常被用来当做标示文件是以UTF-8、UTF-16或UTF-32编码的记号。</li>
+</ul>
+<pre><code class="language-javascript">// JSON原生扩展
+// Native extension for .json<br/>
+Module._extensions[&#39;.json&#39;] = function(module, filename) {<br/>
+ // 原生引入fs模块<br/>
+ // 同步读取的函数和异步函数相比，多了一个Sync后缀，并且不接收回调函数，函数直接返回结果。<br/>
+ let content = NativeModule.require(&#39;fs&#39;),readFileSync(filename, &#39;utf8&#39;);<br/>
+ try {<br/>
+   // 解决parse失败的问题<br/>
+   module.exports = JSON.parse(stripBOM(content));<br/>
+ } catch (err) {<br/>
+   err.message = `filename: ${err.message}`;<br/>
+   throw err;<br/>
+ }<br/>
+}<br/>
+// 什么是stripBOM<br/>
+function stripBOM(content) {<br/>
+ // 检测第一个字符是否为BOM<br/>
+ if (content.charCodeAt(0) === 0xFEFF) {<br/>
+   content = content.slice(1);<br/>
+ }<br/>
+ return content;<br/>
+}
+</code></pre></li>
+<li><p><code>Module._extensions</code>会被赋值给<code>require()</code>的<code>extensions</code>属性</p></li>
+</ul>
+<pre><code class="language-javascript">// Module._extensions ...
+console.log(require.extensions);<br/>
+// log -&gt; { &#39;.js&#39;: [Function], &#39;.json&#39;: [Function], &#39;.node&#39;: [Function] }
+</code></pre>
+<blockquote>
+<p>早期的CoffeeScript文件通过添加<code>require.extensions[&#39;.coffee&#39;]</code>扩展的方式来实现加载的（官方不推荐）</p>
+</blockquote>
+<h5 id="toc_4">2.3.1 JavaScript模块的编译</h5>
+<blockquote>
+<p><code>require</code>、<code>exports</code>、<code>module</code>、<code>__filename</code>、<code>__dirname</code>...来源</p>
+</blockquote>
+<ul>
+<li>原因是对获取的js文件进行了头尾包装</li>
+</ul>
+<pre><code class="language-javascript">(function(exports, require, module, __filename, __dirname) {
+  var math = require(&#39;math&#39;);<br/>
+  export.area = function(radius) {<br/>
+    return Math.PI * radius * radius;<br/>
+  };<br/>
+});
+</code></pre>
+<ul>
+<li><p>至此，模块文件都进行了作用域隔离。包装之后的代码会通过<code>vm</code>原生模块的<code>runInThisContext()</code>方法执行（类似eval，但具有明确上下文，不污染全局），返回一个<code>function</code>对象（上文）</p></li>
+<li><p>为什么同时存在<code>exports</code>和<code>module.exports</code>，是因为<code>exports</code>对象是通过形参的方式传入的，只会改变形参，不改变当前作用域外的值，如果要达到require引入一个类的效果，需要赋值给<code>module.exports</code></p></li>
+</ul>
+<h5 id="toc_5">2.3.2 C/C++模块的编译</h5>
+<ul>
+<li>Node调用<code>process.dlopen()</code>方法进行加载和执行。</li>
+<li><code>.node</code>文件不需要编译，只有加载和执行的过程。</li>
+<li>优势：执行效率    劣势：编写门槛</li>
+</ul>
+<h5 id="toc_6">2.3.3 JSON文件的编译</h5>
+<blockquote>
+<p><code>.json</code>文件是3种编译方式中最简单的</p>
+</blockquote>
+<ul>
+<li>利用<code>fs</code>模块同步读取JSON文件的内容，调用<code>JSON.parse()</code>得到对象，然后赋给对象的<code>exports</code>，供外部使用</li>
+<li><code>JSON</code>文件作为项目配置比较有用，不必调用<code>fs</code>模块，直接使用<code>require()</code>引入，可以享受模块缓存的便利，二次引入也没有性能影响</li>
+</ul></li>
+</ol></li>
+</ol>
+
+<h3 id="toc_7">核心模块</h3>
+
+<blockquote>
+<p>Node的核心模块在编译成可执行文件的过程中被编译进二进制文件</p>
+
+<p><strong>核心模块</strong>分<code>C/C++</code>和<code>JavaScript</code>两部分，其中<code>C/C++</code>放在Node项目的src，<code>JavaScript</code>放在lib的目录</p>
+</blockquote>
+
+<h4 id="toc_8">1. JavaScript 核心模块的编译过程</h4>
+
+<ol>
+<li><p>转存为 <code>C/C++</code> 代码</p>
+<ul>
+<li><code>Node</code> 采用了V8附带的 <code>js2c.py</code> 工具，将所有内置的JS代码（src/node.js和lib/*.js）转换成C++里的数组，生成 <code>node_natives.h</code> 头文件</li>
+<li>JavaScript代码以字符串的性故事储存在<code>node</code>命名空间中，是不可直接执行的。在启动<code>Node</code>进程时，JavaScript代码直接加载进内存中。在加载的过程中，JavaScript核心模块经历标识符分析后直接定位到内存中，比普通的文件模块从磁盘中一处一处查找要快 </li>
+</ul></li>
+<li><p>编译 <code>JavaScript</code> 核心模块</p>
+<blockquote>
+<p>与文件模块的区别：获取源代码的方式（核心模块是从内存中加载的）以及缓存执行结果的为止</p>
+</blockquote>
+<ul>
+<li><p>源文件通过<code>process.binding(&#39;natives&#39;)</code>取出，编译成功的模块混存到<code>NativeModule._cache</code>对象上，文件模块则缓存到<code>Module._cache</code>对象上：</p>
+<pre><code class="language-javascript">function NativeModule(id) {
+this.filename = `${id}.js`;<br/>
+this.id             = id;<br/>
+this.exports  = {};<br/>
+this.loaded     = false;<br/>
+}<br/>
+NativeModule._source = process.binding(&#39;natives&#39;);<br/>
+NativeModule._cache  = {};
+</code></pre></li>
+</ul></li>
+</ol>
+
+<h4 id="toc_9">C/C++核心模块的编译过程</h4>
+
+<blockquote>
+<p>内建模块的优势：性能高于脚本语言（C/C++编写）</p>
+
+<p>文件编译时为二进制文件，Node执行时被直接加载进内存，无须标识符定位、文件定位、编译等过程</p>
+</blockquote>
+
+<ol>
+<li><p>内建模块的组织形式</p>
+<blockquote>
+<p>在Node中，内建模块的内部结构定义如下</p>
+</blockquote>
+<pre><code class="language-c">struct node_module_struct {
+  int version;<br/>
+  void *dso_handle;<br/>
+  const char *filename;<br/>
+  void (*register_func) (v8::Handle&lt;v8::Object&gt; target);<br/>
+  const char *modname;<br/>
+};
+</code></pre>
+<p><code>node_extensions.h</code>文件将这些散列的内建模块统一放进了一个叫<code>node_module_list</code>的数组中，这些模块有</p>
+<pre><code class="language-mermaid">graph TB
+node_buffer;<br/>
+node_crypto;<br/>
+node_evals;<br/>
+node_fs;<br/>
+node_http_parser;<br/>
+node_os;
+</code></pre>
+<pre><code class="language-mermaid">graph TB
+node_zlib;<br/>
+node_time_wrap;<br/>
+node_tcp_wrap;<br/>
+node_udp_wrap;<br/>
+node_pipe_wrap;<br/>
+node_cares_wrap;
+</code></pre>
+<pre><code class="language-mermaid">graph TB
+node_tty_wrap;<br/>
+node_process_wrap;<br/>
+node_fs_event_wrap;<br/>
+node_signal_watcher;
+</code></pre>
+<p><code>node</code>提供<code>get_builtin_module()</code>方法从<code>node_module_list</code>数组中取出这些模块</p></li>
+<li><p>内建模块的导出</p>
+<p>依赖层级关系</p>
+<pre><code class="language-mermaid">graph BT;
+file(文件模块);<br/>
+javascript(核心模块JS);<br/>
+c(内建模块C/C++);<br/>
+c--&gt;javascript;<br/>
+javascript--&gt;file
+</code></pre></li>
+</ol>
+
+<h4 id="toc_10">核心模块的引入流程</h4>
+
+<pre><code class="language-mermaid">graph BT;
+
+style NODE fill:#fff;
+style GET fill:#fff;
+style PROCESS fill:#fff;
+style NATIVE fill:#fff;
+style REQUIRE fill:#fff;
+NODE(&quot;NODE_MODULE(node_os, reg_func)&quot;);
+GET(&quot;get_builtin_module(&#39;node_os&#39;)&quot;);
+PROCESS(&quot;process.binding(&#39;os&#39;)&quot;);
+NATIVE(&quot;NativeModule.require(&#39;os&#39;)&quot;);
+REQUIRE(&quot;require(&#39;os&#39;)&quot;);
+
+NODE--&gt;GET
+GET--&gt;PROCESS
+PROCESS--&gt;NATIVE
+NATIVE--&gt;REQUIRE
+</code></pre>
+
+<h4 id="toc_11">包与NPM</h4>
+
+<blockquote>
+<p>包组织模块示意图</p>
+</blockquote>
+
+<pre><code class="language-mermaid">graph RL
+
+Module(模块);
+style a1 fill:#fff;
+style a2 fill:#fff;
+style a3 fill:#fff;
+style export fill:#fff;
+style Module fill:#fff;
+
+subgraph 包
+a1(模块)--&quot;require()&quot;--&gt;export(出口模块);
+a2(模块)--&quot;require()&quot;--&gt;export(出口模块)
+a3(...)--&quot;require()&quot;--&gt;export(出口模块)
+
+end
+
+export--&gt;Module
+</code></pre>
+
+<ol>
+<li><p>包结构</p>
+<blockquote>
+<p>包实际上是一个存档文件，即一个目录直接打包为<code>.zip</code>或<code>tar.gz</code>格式的文件，安装后解压还原为目录</p>
+</blockquote></li>
+</ol>
+
+<p>符合CommonJS规范的包应该包含如下这些文件：</p>
+
+<table>
+<thead>
+<tr>
+<th>文件</th>
+<th>描述</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td><code>package.json</code></td>
+<td>包描述文件</td>
+</tr>
+<tr>
+<td><code>bin</code></td>
+<td>用于存放可执行二进制文件的目录</td>
+</tr>
+<tr>
+<td><code>lib</code></td>
+<td>用于存放JavaScript代码的目录</td>
+</tr>
+<tr>
+<td><code>doc</code></td>
+<td>用于存放文档的目录</td>
+</tr>
+<tr>
+<td><code>test</code></td>
+<td>用于存放单元测试用力的代码</td>
+</tr>
+</tbody>
+</table>
+
+<ol>
+<li><p>包描述文件与NPM</p>
+<ul>
+<li><p>包描述文件，它是一个JSON格式的文件---<code>package.json</code>，位于包的根目录下。</p></li>
+<li><p>CommonJS为<code>package.json</code>文件定义了以下字段</p>
+<table>
+<thead>
+<tr>
+<th>字段</th>
+<th>含义</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>name</td>
+<td>包名</td>
+<td>1. 必须由小写字母加数字组成。可以包含.、_和-，但不允许出现空格</td>
+</tr>
+<tr>
+<td>description</td>
+<td>包简介</td>
+<td></td>
+</tr>
+<tr>
+<td>version</td>
+<td>版本号</td>
+<td>1. 一个语义化的版本号，在 <a href="http://semver.org">semver</a>上有详细的定义<br/>2. 通常为<code>major.minor.revision</code>格式</td>
+</tr>
+<tr>
+<td>keywords</td>
+<td>关键词数组</td>
+<td>1. NPM中主要用来做分类搜索</td>
+</tr>
+<tr>
+<td>maintainers</td>
+<td>包维护者列表</td>
+<td>1. 每个维护者由name、email和web这3个属性组成。<br/>2. 示例<code>[{ &quot;name&quot;: &quot;Jack&quot; }, { &quot;email&quot;: &quot;Jack@gmail.com&quot; }, { &quot;web&quot;: &quot;google.com&quot; }]&lt;br/&gt;</code><br/>3. NPM通过该属性进行权限校验</td>
+</tr>
+<tr>
+<td>contributors</td>
+<td>贡献者列表</td>
+<td></td>
+</tr>
+<tr>
+<td>bugs</td>
+<td>一个可以反馈bug的页面地址或者邮件地址</td>
+<td></td>
+</tr>
+<tr>
+<td>licenses</td>
+<td>当前包所使用的许可证列表</td>
+<td>1. 格式：<code>&quot;licenses&quot;: [{ &quot;type&quot;: &quot;GPLv2&quot;, &quot;url&quot;: &quot;example.com/gpl.html&quot;  }]</code></td>
+</tr>
+<tr>
+<td>repositories</td>
+<td>托管源代码的位置列表</td>
+<td></td>
+</tr>
+<tr>
+<td>dependencies</td>
+<td>使用当前包所需要依赖的包列表</td>
+<td>1. NPM会通过这个属性帮助自动加载依赖的包</td>
+</tr>
+<tr>
+<td>可选字段</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>homepage</td>
+<td>当前包的网站地址</td>
+<td></td>
+</tr>
+<tr>
+<td>os</td>
+<td>操作系统支持列表</td>
+<td>1. 取值包括<code>aix,freebsd,linux,macos,solaris,vxworks,windows</code><br/>2. 如果列表为空，则不对CPU架构做任何假设</td>
+</tr>
+<tr>
+<td>engines</td>
+<td>支持的JavaScript引擎列表</td>
+<td>1. 有效的引擎包括：<code>ejs,flusspferd,gpsee,jsc,spidermonkey,narwhai,node,v8</code></td>
+</tr>
+<tr>
+<td>builtin</td>
+<td>标识当前包是否内建在底层系统的标准组件</td>
+<td></td>
+</tr>
+<tr>
+<td>directories</td>
+<td>包目录说明</td>
+<td></td>
+</tr>
+<tr>
+<td>implements</td>
+<td>实现规范的列表</td>
+<td>1. 标志当前包实现了CommonJS的哪些规范</td>
+</tr>
+<tr>
+<td>scripts</td>
+<td>脚本说明对象</td>
+<td>1. 主要被包管理器用来<strong>安装</strong>、<strong>编译</strong>、<strong>测试</strong>和<strong>卸载包</strong>。</td>
+</tr>
+</tbody>
+</table></li>
+</ul></li>
+</ol>
+
+<ul>
+<li><p>NPM正是基于以上规范进行了实现，而NPM实际所需要的字段多了4个字段的补充<code>author, bin, main, devDependencies</code></p>
+<table>
+<thead>
+<tr>
+<th>字段</th>
+<th>含义</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>author</td>
+<td>包作者</td>
+<td></td>
+</tr>
+<tr>
+<td>bin</td>
+<td>一些包作者希望包可以作为命令行工具使用</td>
+<td>1. 配置好bin字段后，通过<code>npm install package_name -g</code>命令可以将脚本添加到执行路径中，之后可以在命令中直接执行。</td>
+</tr>
+<tr>
+<td>main</td>
+<td>模块引入方法<code>require()</code>在引入包时，会优先检查这个字段，并将其作为包中其余模块的入口</td>
+<td>1. 如果不存在这个字段，<code>require()</code>方法会查找包目录下的<code>index.js、index.node、index.json</code>文件为默认入口</td>
+</tr>
+<tr>
+<td>devDepenedencies</td>
+<td>一些模块只在开发时需要依赖</td>
+<td>1. 配置这个属性，可以提示包的后续开发者安装依赖包</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>知名框架express项目的package.json文件，具有一定的参考意义</p>
+</blockquote>
+<pre><code class="language-javascript">{
+&quot;name&quot;: &quot;express&quot;,<br/>
+&quot;description&quot;: &quot;Fast, unopinionated, minimalist web framework&quot;,<br/>
+&quot;version&quot;: &quot;4.17.1&quot;,<br/>
+&quot;author&quot;: &quot;TJ Holowaychuk &lt;tj@vision-media.ca&gt;&quot;,<br/>
+&quot;contributors&quot;: [<br/>
+  &quot;Aaron Heckmann &lt;aaron.heckmann+github@gmail.com&gt;&quot;,<br/>
+  &quot;Ciaran Jessup &lt;ciaranj@gmail.com&gt;&quot;,<br/>
+  &quot;Douglas Christopher Wilson &lt;doug@somethingdoug.com&gt;&quot;,<br/>
+  &quot;Guillermo Rauch &lt;rauchg@gmail.com&gt;&quot;,<br/>
+  &quot;Jonathan Ong &lt;me@jongleberry.com&gt;&quot;,<br/>
+  &quot;Roman Shtylman &lt;shtylman+expressjs@gmail.com&gt;&quot;,<br/>
+  &quot;Young Jae Sim &lt;hanul@hanul.me&gt;&quot;<br/>
+],<br/>
+&quot;license&quot;: &quot;MIT&quot;,<br/>
+&quot;repository&quot;: &quot;expressjs/express&quot;,<br/>
+&quot;homepage&quot;: &quot;http://expressjs.com/&quot;,<br/>
+&quot;keywords&quot;: [<br/>
+  &quot;express&quot;,<br/>
+  &quot;framework&quot;,<br/>
+  &quot;sinatra&quot;,<br/>
+  &quot;web&quot;,<br/>
+  &quot;rest&quot;,<br/>
+  &quot;restful&quot;,<br/>
+  &quot;router&quot;,<br/>
+  &quot;app&quot;,<br/>
+  &quot;api&quot;<br/>
+],<br/>
+&quot;dependencies&quot;: {<br/>
+  &quot;accepts&quot;: &quot;~1.3.7&quot;,<br/>
+  &quot;array-flatten&quot;: &quot;1.1.1&quot;,<br/>
+  &quot;body-parser&quot;: &quot;1.19.0&quot;,<br/>
+  &quot;content-disposition&quot;: &quot;0.5.3&quot;,<br/>
+  &quot;content-type&quot;: &quot;~1.0.4&quot;,<br/>
+  &quot;cookie&quot;: &quot;0.4.0&quot;,<br/>
+  &quot;cookie-signature&quot;: &quot;1.0.6&quot;,<br/>
+  &quot;debug&quot;: &quot;2.6.9&quot;,<br/>
+  &quot;depd&quot;: &quot;~1.1.2&quot;,<br/>
+  &quot;encodeurl&quot;: &quot;~1.0.2&quot;,<br/>
+  &quot;escape-html&quot;: &quot;~1.0.3&quot;,<br/>
+  &quot;etag&quot;: &quot;~1.8.1&quot;,<br/>
+  &quot;finalhandler&quot;: &quot;~1.1.2&quot;,<br/>
+  &quot;fresh&quot;: &quot;0.5.2&quot;,<br/>
+  &quot;merge-descriptors&quot;: &quot;1.0.1&quot;,<br/>
+  &quot;methods&quot;: &quot;~1.1.2&quot;,<br/>
+  &quot;on-finished&quot;: &quot;~2.3.0&quot;,<br/>
+  &quot;parseurl&quot;: &quot;~1.3.3&quot;,<br/>
+  &quot;path-to-regexp&quot;: &quot;0.1.7&quot;,<br/>
+  &quot;proxy-addr&quot;: &quot;~2.0.5&quot;,<br/>
+  &quot;qs&quot;: &quot;6.7.0&quot;,<br/>
+  &quot;range-parser&quot;: &quot;~1.2.1&quot;,<br/>
+  &quot;safe-buffer&quot;: &quot;5.1.2&quot;,<br/>
+  &quot;send&quot;: &quot;0.17.1&quot;,<br/>
+  &quot;serve-static&quot;: &quot;1.14.1&quot;,<br/>
+  &quot;setprototypeof&quot;: &quot;1.1.1&quot;,<br/>
+  &quot;statuses&quot;: &quot;~1.5.0&quot;,<br/>
+  &quot;type-is&quot;: &quot;~1.6.18&quot;,<br/>
+  &quot;utils-merge&quot;: &quot;1.0.1&quot;,<br/>
+  &quot;vary&quot;: &quot;~1.1.2&quot;<br/>
+},<br/>
+&quot;devDependencies&quot;: {<br/>
+  &quot;after&quot;: &quot;0.8.2&quot;,<br/>
+  &quot;connect-redis&quot;: &quot;3.4.1&quot;,<br/>
+  &quot;cookie-parser&quot;: &quot;~1.4.4&quot;,<br/>
+  &quot;cookie-session&quot;: &quot;1.3.3&quot;,<br/>
+  &quot;ejs&quot;: &quot;2.6.1&quot;,<br/>
+  &quot;eslint&quot;: &quot;2.13.1&quot;,<br/>
+  &quot;express-session&quot;: &quot;1.16.1&quot;,<br/>
+  &quot;hbs&quot;: &quot;4.0.4&quot;,<br/>
+  &quot;istanbul&quot;: &quot;0.4.5&quot;,<br/>
+  &quot;marked&quot;: &quot;0.6.2&quot;,<br/>
+  &quot;method-override&quot;: &quot;3.0.0&quot;,<br/>
+  &quot;mocha&quot;: &quot;5.2.0&quot;,<br/>
+  &quot;morgan&quot;: &quot;1.9.1&quot;,<br/>
+  &quot;multiparty&quot;: &quot;4.2.1&quot;,<br/>
+  &quot;pbkdf2-password&quot;: &quot;1.2.1&quot;,<br/>
+  &quot;should&quot;: &quot;13.2.3&quot;,<br/>
+  &quot;supertest&quot;: &quot;3.3.0&quot;,<br/>
+  &quot;vhost&quot;: &quot;~3.0.2&quot;<br/>
+},<br/>
+&quot;engines&quot;: {<br/>
+  &quot;node&quot;: &quot;&gt;= 0.10.0&quot;<br/>
+},<br/>
+&quot;files&quot;: [<br/>
+  &quot;LICENSE&quot;,<br/>
+  &quot;History.md&quot;,<br/>
+  &quot;Readme.md&quot;,<br/>
+  &quot;index.js&quot;,<br/>
+  &quot;lib/&quot;<br/>
+],<br/>
+&quot;scripts&quot;: {<br/>
+  &quot;lint&quot;: &quot;eslint .&quot;,<br/>
+  &quot;test&quot;: &quot;mocha --require test/support/env --reporter spec --bail --check-leaks test/ test/acceptance/&quot;,<br/>
+  &quot;test-ci&quot;: &quot;istanbul cover node_modules/mocha/bin/_mocha --report lcovonly -- --require test/support/env --reporter spec --check-leaks test/ test/acceptance/&quot;,<br/>
+  &quot;test-cov&quot;: &quot;istanbul cover node_modules/mocha/bin/_mocha -- --require test/support/env --reporter dot --check-leaks test/ test/acceptance/&quot;,<br/>
+  &quot;test-tap&quot;: &quot;mocha --require test/support/env --reporter tap --check-leaks test/ test/acceptance/&quot;<br/>
+}<br/>
+}
+</code></pre></li>
+</ul>
+
+<ol>
+<li><p>NPM常用功能</p>
+<blockquote>
+<p>CommonJS包规范是理论，NPM是其中的一种实践。NPM之于NODE，相当于gem之于ruby、pear之于PHP。</p>
+</blockquote>
+<ul>
+<li><p>查看帮助</p>
+<pre><code class="language-bash"># 查看当前版本
+npm -v<br/>
+# 不熟悉可以直接执行查看引导<br/>
+npm<br/>
+Usage: npm &lt;command&gt;<br/>
+where &lt;command&gt; is one of:<br/>
+ access, adduser, audit, bin, bugs, c, cache, ci, cit,<br/>
+ clean-install, clean-install-test, completion, config,<br/>
+ create, ddp, dedupe, deprecate, dist-tag, docs, doctor,<br/>
+ edit, explore, get, help, help-search, hook, i, init,<br/>
+ install, install-ci-test, install-test, it, link, list, ln,<br/>
+ login, logout, ls, org, outdated, owner, pack, ping, prefix,<br/>
+ profile, prune, publish, rb, rebuild, repo, restart, root,<br/>
+ run, run-script, s, se, search, set, shrinkwrap, star,<br/>
+ stars, start, stop, t, team, test, token, tst, un,<br/>
+ uninstall, unpublish, unstar, up, update, v, version, view,<br/>
+ whoami<br/>
+npm &lt;command&gt; -h  quick help on &lt;command&gt;<br/>
+npm -l            display full usage info<br/>
+npm help &lt;term&gt;   search for help on &lt;term&gt;<br/>
+npm help npm      involved overview<br/>
+Specify configs in the ini-formatted file:<br/>
+ /Users/zephyr/.npmrc<br/>
+or on the command line via: npm &lt;command&gt; --key value<br/>
+Config info can be viewed via: npm help config<br/>
+npm@6.12.0 /usr/local/lib/node_modules/npm
+</code></pre></li>
+<li><p>安装依赖包</p>
+<ul>
+<li>执行命令后，NPM会在当前目录创建node_module目录，然后在node_module目录创建express目录，接着将包解压到这个目录下</li>
+</ul>
+<pre><code class="language-bash">npm install package_name
+# 例子<br/>
+npm install express
+</code></pre>
+<p>安装好依赖包后，直接在代码中调用<code>require(&#39;express&#39;);</code>即可引入该包。</p>
+<ul>
+<li><p>全局模式安装</p></li>
+<li><p>如果包中含有命令行工具，需要执行`npm install express -g命令进行全局模式安装。</p></li>
+<li><p>注意：全局模式并不是将一个模块包安装为一个全局包的意思，它并不意味着可以从任何地方通过<code>require()</code>来引用它</p></li>
+<li><p>全局模式这个称谓其实并不准确，存在误导。实际上，<code>-g</code>是将一个包安装为全局可用的可执行命令。根据包描述文件中的bin字段配置，将实际脚本链接到于Node可执行文件相同的路径下</p>
+<pre><code class="language-javascript">&quot;bin&quot;: {
+&quot;express&quot;: &quot;./bin/express&quot;<br/>
+}
+</code></pre></li>
+<li><p>事实上，通过全局模式安装的所有模块包都被安装进了一个统一的目录下，这个目录可以通过如下方式推算出来</p>
+<pre><code class="language-javascript">path.resolve(process.execPath, &#39;..&#39;, &#39;..&#39;, &#39;lib&#39;, &#39;node_module&#39;);
+</code></pre></li>
+<li><p>如果Node可执行文件的位置是<code>/usr/local/bin/node</code>，那么模块目录就是<code>/usr/local/lib/node_modules</code>。最后，通过软连接的方式将bin字段配置的可执行文件链接到Node的可执行目录下</p></li>
+<li><p>从本地安装</p></li>
+<li><p>对于一些没有发布到NPM上的包，或是因为网络原因导致无法直接安装的包，可以通过将包下载到本地，然后以本地安装。本地安装只需为NPM指明<code>package.json</code>文件所在的位置即可：它可以是一个包含<code>package.json</code>的存档文件，也可以是一个URL地址，也可以是一个目录下有<code>package.json</code>文件的目录位置。具体参数如下</p>
+<pre><code class="language-bash">npm install &lt;tarball file&gt;
+npm install &lt;tarball url&gt;<br/>
+npm install &lt;folder&gt;
+</code></pre></li>
+<li><p>从非官方源安装</p></li>
+<li><p>如果不能通过官方源安装，可以通过镜像源安装。在执行命令时，添加<code>--registry=http://registry.url</code>即可，示例如下：</p>
+<pre><code class="language-bash">npm install underscore --registry=http://registry.url
+# 如果使用过程中几乎都采用镜像源安装，可以执行以下命令指定默认源：<br/>
+npm config set registry http://registry.url
+</code></pre></li>
+</ul></li>
+<li><p>NPM钩子命令</p>
+<ul>
+<li>另一个需要说明的是C/C++模块实际上是编译后才能使用的。<code>package.json</code>中<code>scripts</code>字段的提出就是让包在安装或者卸载等过程中提供钩子机制，示例如下：</li>
+</ul>
+<pre><code class="language-javascript">&quot;scripts&quot;: {
+ &quot;preinstall&quot;: &quot;preinstall.js&quot;,<br/>
+ &quot;install&quot;: &quot;install.js&quot;,<br/>
+ &quot;uninstall&quot;: &quot;uninstall.js&quot;,<br/>
+ &quot;test&quot;: &quot;test.js&quot;<br/>
+}
+</code></pre></li>
+<li><p>发布包</p>
+<ul>
+<li>编写模块</li>
+</ul>
+<pre><code class="language-javascript">// 例子 -- 简单为主
+exports.sayHello = function () {<br/>
+ return &#39;Hello, world&#39;l<br/>
+}<br/>
+// 保存为hello.js
+</code></pre>
+<ul>
+<li>初始化包描述文件</li>
+</ul>
+<pre><code class="language-bash">npm init
+</code></pre>
+<ul>
+<li>注册包仓库账号</li>
+</ul>
+<p>为了维护包，NPM必须要使用仓库账号才允许将包发布到仓库中。注册账号的命令是<code>npm adduser</code></p>
+<pre><code class="language-bash">npm adduser
+Username: (zephyrmo)<br/>
+Email: (zephyrTang@aliyun.com)
+</code></pre>
+<ul>
+<li>上传包</li>
+</ul>
+<p>在这个过程中，NPM会将目录打包为一个存档文件，然后上传到官方源仓库中</p>
+<pre><code class="language-bash">npm publish
+</code></pre>
+<ul>
+<li>安装包</li>
+</ul>
+<p>换个目录执行<code>npm install &lt;your_package_name&gt;</code></p>
+<ul>
+<li>管理包权限</li>
+</ul>
+<p>通常，一个包只有一个人拥有权限进行发布。如果需要多人进行发布，可以使用<code>npm owner</code>命令帮助你管理包的所有者</p>
+<pre><code class="language-bash">npm owner ls hello_test_zephyr
+</code></pre></li>
+<li><p>分析包</p>
+<ul>
+<li><p>在使用NPM的过程中，或许你不能确认当前目录下能否通过<code>require()</code>顺利引入想要的包，这时可以执行npm ls包</p></li>
+<li><p>这个命令可以为你分析出当前路径下能够通过模块路径找到的所有包，并生成依赖树，如下：</p></li>
+</ul>
+<pre><code class="language-bash">/Users/mo
+└── (empty)
+</code></pre></li>
+<li><p>NPM潜在问题</p>
+<ul>
+<li>质量容易良莠不齐</li>
+<li>通过NPM模块首页考察</li>
+<li>通过GITHUB托管考察</li>
+<li>考量包中的测试用例和文档</li>
+<li>社区解决方案</li>
+<li>引入CPAN社区中Kwalitee风格让模块进行自然排序</li>
+<li>「Kwalitee」发声与quanlity相近，原始定义：&#39;Kwalitee&#39; is something that looks like quality, sounds like quality, but is not quite quanlity</li>
+<li>符合Kwalitee模块满足条件
+<ul>
+<li>具备良好的测试</li>
+<li>具备良好的文档（README，API）</li>
+<li>具备良好的测试覆盖率</li>
+<li>具备良好的编码规范</li>
+<li>更多条件</li>
+</ul></li>
+</ul></li>
+<li><p>前后端共用模块</p></li>
+<li><p>模块的侧重点</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>浏览器</th>
+<th>服务器</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>过程</td>
+<td>需要经历从一个服务器端分发到多个客户端执行</td>
+<td>相同代码需要多次执行</td>
+</tr>
+<tr>
+<td>瓶颈</td>
+<td>带宽</td>
+<td>CPU、内存等资源</td>
+</tr>
+<tr>
+<td>加载方式</td>
+<td>网络加载</td>
+<td>磁盘加载</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>鉴于网络原因，CommonJS为后端JavaScript并不完全适合前端的应用场景，AMD规范最终在前端应用场景中胜出</li>
+<li>AMD全称Asynchronous Module Definition，即是『异步模块定义』</li>
+</ul></li>
+<li><p>AMD规范</p>
+<ul>
+<li>AMD规范是CommonJS模块规范的一个延伸，定义如下：</li>
+</ul>
+<pre><code class="language-javascript">define(id, dependencies?, factory)
+define(function () {<br/>
+   var exports = {};<br/>
+   exports.sayHello = function () {<br/>
+       alert(&#39;Hello from module: &#39; + module.id)<br/>
+   };<br/>
+   return exports;<br/>
+})
+</code></pre>
+<ul>
+<li><p>不同之处在于AMD模块需要用define来明确一个模块，而在Node实现是隐式包装的</p></li>
+<li><p>目的：作用域隔离</p></li>
+</ul></li>
+<li><p>CMD规范</p>
+<ul>
+<li>CMD规范由国内的玉伯提出，与AMD规范的主要区别在于定义模块和依赖引入部分。AMD需要在声明模块的时候指定所有的依赖，通过星灿传递到模块内容中</li>
+</ul>
+<pre><code class="language-javascript">define([&#39;dep1&#39;, [&#39;dep2&#39;], function (dep1, dep2) {
+   return function () {};<br/>
+})<br/>
+// 与AMD模块规范相比，CMD模块更接近于Node对CommonJS规范的定义<br/>
+define(fatory)<br/>
+// 在依赖部分，CMD支持动态引入，示例如下<br/>
+define(function (require, exports, module) {<br/>
+   // The module goes here<br/>
+});<br/>
+// require、exports和module通过形参传递给模块，在需要依赖模块时，随时调用require()引入即可
+</code></pre></li>
+<li><p>兼容多种模块规范</p>
+<pre><code class="language-javascript">(function (name, definition) {
+ // 检测上下文环境是否为AMD或CMD<br/>
+ var hasDefine  = typeof define === &#39;function&#39;;<br/>
+ var hasExports = typeof module !== &#39;undefined&#39; &amp;&amp; module.exports;<br/>
+ if ( hasDefine ) {<br/>
+     // AMD or CMD env<br/>
+     define(definition)<br/>
+ } else if ( hasExports ) {<br/>
+     // 定义为普通模块<br/>
+     module.exports = definition();<br/>
+ } else {<br/>
+     // 将模块的执行结果挂在window变量中，在浏览器中this指向window对象<br/>
+     this[name] = definition();<br/>
+ }<br/>
+})(&#39;hello&#39;, function () {<br/>
+ var hello = function () {};<br/>
+ return hello;<br/>
+})
+</code></pre></li>
+</ul></li>
+</ol>
 
                 </div>
                 <div class="bottom">
-                  <a href="15853210979386.html" class="continue float-right">
+                  <a href="15854207316973.html" class="continue float-right">
                     继续阅读
                   </a>
                 </div>
@@ -68,6 +1044,20 @@
         </div>
       </div>
       <div class="otherposts row">
+    
+  
+    
+        <div class="col-md-6">
+          <a href="15853210979386.html" class="item">
+            <div class="article normal">
+              <div class="featureimg" style="background-image: url('asset/defaultfeaimg.jpg')"></div>
+              <div class="articleinfo">
+                <div class="headline">NPM与YARN</div>
+                
+              </div>
+            </div>
+          </a>
+        </div>
     
   
     
