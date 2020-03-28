@@ -1,93 +1,27 @@
-<!doctype html>
-<html lang="zh-cn">
-  <head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width,minimum-scale=1" />
-    <title>
-        
-      模块机制 - 卷毛前端日志
-      
-    </title>
-    <meta name="keywords" content="卷毛前端日志" />
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[卷毛前端日志]]></title>
+  <link href="https://zephyrmo.com/atom.xml" rel="self"/>
+  <link href="https://zephyrmo.com/"/>
+  <updated>2020-03-29T02:58:06+08:00</updated>
+  <id>https://zephyrmo.com/</id>
+  <author>
+    <name><![CDATA[zephyr]]></name>
     
-      <meta name="twitter:card" content="summary_large_image" />
-      <meta name="twitter:creator" content="@" />
-      <meta property="og:url" content="https://zephyrmo.com/15854207316973.html" />
-      <meta property="og:title" content="模块机制" />
-      
-        <meta property="og:description" content="NODE" />
-        <meta name="description" content="NODE" />
-      
-      
-        <meta property="og:image" content="https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.infoq.cn%2Farticle%2FQS8gxm*s5iclio4I0IOy&psig=AOvVaw03IibGzIv6wQT4wjuRGluf&ust=1585508250921000&source=images&cd=vfe&ved=0CAIQjRxqFwoTCKjOi9PsvegCFQAAAAAdAAAAABAD" />
-        <meta name="twitter:image" content="https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.infoq.cn%2Farticle%2FQS8gxm*s5iclio4I0IOy&psig=AOvVaw03IibGzIv6wQT4wjuRGluf&ust=1585508250921000&source=images&cd=vfe&ved=0CAIQjRxqFwoTCKjOi9PsvegCFQAAAAAdAAAAABAD" />
-      
-      <meta property="og:site_name" content="卷毛前端日志" />
-    
-    
-    <link href="atom.xml" rel="alternate" title="卷毛前端日志" type="application/atom+xml">
-    <script src="https://cdn.bootcss.com/moment.js/2.24.0/moment.min.js"></script>
-    <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-    <!-- 来必力City版安装代码 -->
-<div id="lv-container" data-id="city" data-uid="MTAyMC80OTM0Mi8yNTgzNA==">
-	<script type="text/javascript">
-   (function(d, s) {
-       var j, e = d.getElementsByTagName(s)[0];
+  </author>
+  <generator uri="http://www.coderforart.com/">CoderForArt</generator>
 
-       if (typeof LivereTower === 'function') { return; }
-
-       j = d.createElement(s);
-       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
-       j.async = true;
-
-       e.parentNode.insertBefore(j, e);
-   })(document, 'script');
-	</script>
-<noscript> 为正常使用来必力评论功能请激活JavaScript</noscript>
-</div>
-<!-- City版安装代码已完成 -->
-
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <link rel="stylesheet" href="asset/style.css">
-    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-  </head>
-  <body>
-    <div class="container">
-      <div class="head">
-        <div class="row">
-          <div class="col-md-12">
-            <div class="blogname">卷毛前端日志</div>
-            <nav>
-              
-                <div class="item"><a target="_self" href="index.html">Home</a></div>
-              
-                <div class="item"><a target="_self" href="archives.html">Archives</a></div>
-              
-                <div class="item"><a target="_self" href="https://github.com/zephyr-mo">github</a></div>
-              
-            </nav>
-          </div>
-        </div>
-      </div>
-      <hr>
-    </div> <div class="container" id="post">
-  <div class="article huge">
-    <div class="featureimg" style="background-image: url('https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.infoq.cn%2Farticle%2FQS8gxm*s5iclio4I0IOy&psig=AOvVaw03IibGzIv6wQT4wjuRGluf&ust=1585508250921000&source=images&cd=vfe&ved=0CAIQjRxqFwoTCKjOi9PsvegCFQAAAAAdAAAAABAD')"></div>
-    <img src="https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.infoq.cn%2Farticle%2FQS8gxm*s5iclio4I0IOy&psig=AOvVaw03IibGzIv6wQT4wjuRGluf&ust=1585508250921000&source=images&cd=vfe&ved=0CAIQjRxqFwoTCKjOi9PsvegCFQAAAAAdAAAAABAD" style="display: none;" class="featureimgforexternal">
-    <div class="timeGTM" style="display:none;">2020-03-29T02:38:51+08:00</div>
-    <div class="row content">
-      <div class="col-md-2"></div>
-      <div class="col-md-10 main">
-        <div class="row">
-          <div class="col-md-10">
-            <div class="post">
-              <div class="headline"><a href="15854207316973.html">模块机制</a></div>
-              <div class="subtitle">NODE</div>
-              <div class="meta"><span class="time">$[timeformat('2020-03-29T02:38:51+08:00')]</span><br><span class="tags"></span></div>
-              <div class="body">
-                  <blockquote>
+  
+  <entry>
+    <title type="html"><![CDATA[模块机制]]></title>
+    <link href="https://zephyrmo.com/15854207316973.html"/>
+    <meta name="description" content="zephyr" /><author><name><![CDATA[zephyr]]></name></author>
+    <updated>2020-03-29T02:38:51+08:00</updated>
+    <id>https://zephyrmo.com/15854207316973.html</id>
+    <content type="html"><![CDATA[
+    <img src="https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.infoq.cn%2Farticle%2FQS8gxm*s5iclio4I0IOy&psig=AOvVaw03IibGzIv6wQT4wjuRGluf&ust=1585508250921000&source=images&cd=vfe&ved=0CAIQjRxqFwoTCKjOi9PsvegCFQAAAAAdAAAAABAD" />
+<blockquote>
 <p>javascript的变迁</p>
 </blockquote>
 
@@ -1067,53 +1001,20 @@ define(function (require, exports, module) {<br/>
 </ul></li>
 </ol>
 
-              </div>
-            </div>
-            
-            
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-<script>
-    let post = new Vue({
-     el: '#post',
-     data: {
-       hidelikecoin: ''
-     },
-     methods: {
-       timeformat(raw) {
-         return moment(raw).format("YYYY 年 MM 月 DD 日");
-       }
-     },
-     delimiters: ['$[', ']']
-   })
-  </script>      <div class="container">
-      <hr>
-      <div class="footer" id="footer">
-        <div class="slogan">博客</div>
-        <div class="meta">
-          <p></p>
-          <p>「卷毛前端日志」使用 <a href="https://zh.mweb.im/" target="_blank">MWeb</a> 和 <a href="https://github.com/Astrian/reflect-white-mweb-theme" target="_blank">Reflect White</a> 搭建。</p>
-        </div>
-      </div>
-      <script>
-        let footer = new Vue({
-          el: '#footer',
-          data: {
-            message: 'hello'
-          },
-          delimiters: ['$[', ']']
-        })
-      </script>
-    </div>
-  </div>
-</body>
-<!-- Optional JavaScript -->
-<!-- jQuery first, then Popper.js, then Bootstrap JS -->
-<script src="https://cdn.bootcss.com/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-<script src="https://cdn.bootcss.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-<style></style>
-</html>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[NPM与YARN]]></title>
+    <link href="https://zephyrmo.com/15853210979386.html"/>
+    <meta name="description" content="zephyr" /><author><name><![CDATA[zephyr]]></name></author>
+    <updated>2020-03-27T22:58:17+08:00</updated>
+    <id>https://zephyrmo.com/15853210979386.html</id>
+    <content type="html"><![CDATA[
+    <img src="" />
+<h2 id="toc_0">静态网站测试</h2>
+
+]]></content>
+  </entry>
+  
+</feed>
