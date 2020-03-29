@@ -4,7 +4,7 @@
   <title><![CDATA[卷毛前端日志]]></title>
   <link href="https://zephyrmo.com/atom.xml" rel="self"/>
   <link href="https://zephyrmo.com/"/>
-  <updated>2020-03-29T16:40:30+08:00</updated>
+  <updated>2020-03-29T17:03:44+08:00</updated>
   <id>https://zephyrmo.com/</id>
   <author>
     <name><![CDATA[zephyr]]></name>
@@ -12,6 +12,76 @@
   </author>
   <generator uri="http://www.coderforart.com/">CoderForArt</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[ITERM2 ssh设置代理]]></title>
+    <link href="https://zephyrmo.com/itermSSH.html"/>
+    <meta name="description" content="zephyr" /><author><name><![CDATA[zephyr]]></name></author>
+    <updated>2020-03-29T03:29:03+08:00</updated>
+    <id>https://zephyrmo.com/itermSSH.html</id>
+    <content type="html"><![CDATA[
+    <img src="https://tva1.sinaimg.cn/large/00831rSTgy1gdaw477ofyj318g0hcjsg.jpg" />
+<h2 id="toc_0">缘由</h2>
+
+<p>最近自己用电脑拉github代码时候，发现速度巨慢，常常拉半天都拉不下来，更不用说使用brew去安装软件了，简直是天方夜谭，但是自己明明已经是科学上网，而且使用了全局代理，为什么还是如此缓慢呢？<br/>
+<span id="more"></span><!-- more --></p>
+
+<h2 id="toc_1">原因</h2>
+
+<p>ssh不会使用代理</p>
+
+<h2 id="toc_2">解决</h2>
+
+<p>打开iTerm2</p>
+
+<pre><code class="language-bash">vi ~/.zshrc
+</code></pre>
+
+<p>添加</p>
+
+<pre><code class="language-text"># 其中alias后面的名字可以随意分配
+# 端口号要根据你当前代理的端口去配置
+alias ssproxy=&#39;export http_proxy=http://127.0.0.1:1087 https_proxy=http://127.0.0.1:1087&#39;
+alias ssunproxy=&#39;unset http_proxy https_proxy&#39;
+</code></pre>
+
+<p>打开代理</p>
+
+<pre><code class="language-text">ssproxy
+</code></pre>
+
+<p>关闭代理</p>
+
+<pre><code class="language-text">ssunproxy
+</code></pre>
+
+<h2 id="toc_3">如何检测是否代理成功</h2>
+
+<p>如果代理成功，基本上是秒出</p>
+
+<pre><code class="language-bash">curl -I https://google.com
+
+HTTP/1.1 200 Connection established
+
+HTTP/2 301
+...
+</code></pre>
+
+<p>或者 -- 如果不是你本地的就代表代理成功</p>
+
+<pre><code class="language-bash">curl cip.cc
+
+IP  : xx.xx.xx.xx
+地址  : 中国  广东  广州
+运营商 : 移动
+
+数据二 : 广东省广州市 | 移动
+
+数据三 : 中国广东广州 | 移动
+</code></pre>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[模块机制]]></title>

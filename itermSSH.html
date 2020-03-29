@@ -11,6 +11,18 @@
     </title>
     <meta name="keywords" content="卷毛前端日志" />
     
+      <meta name="twitter:card" content="summary_large_image" />
+      <meta name="twitter:creator" content="@" />
+      <meta property="og:url" content="https://zephyrmo.com/itermSSH.html" />
+      <meta property="og:title" content="ITERM2 ssh设置代理" />
+      
+        <meta property="og:description" content="ITERM2 ssh设置代理" />
+      
+      
+        <meta property="og:image" content="https://tva1.sinaimg.cn/large/00831rSTgy1gdaw477ofyj318g0hcjsg.jpg" />
+        <meta name="twitter:image" content="https://tva1.sinaimg.cn/large/00831rSTgy1gdaw477ofyj318g0hcjsg.jpg" />
+      
+      <meta property="og:site_name" content="卷毛前端日志" />
     
     
     <link href="atom.xml" rel="alternate" title="卷毛前端日志" type="application/atom+xml">
@@ -66,18 +78,25 @@
         </div>
       </div>
       <hr>
-    </div> <div class="container" id="page">
+    </div> <div class="container" id="post">
+  <div class="article huge">
+    <div class="featureimg" style="background-image: url('https://tva1.sinaimg.cn/large/00831rSTgy1gdaw477ofyj318g0hcjsg.jpg')"></div>
+    <img src="https://tva1.sinaimg.cn/large/00831rSTgy1gdaw477ofyj318g0hcjsg.jpg" style="display: none;" class="featureimgforexternal">
+    <div class="timeGTM" style="display:none;">2020-03-29T03:29:03+08:00</div>
+    <div class="row content">
+      <div class="col-md-2"></div>
+      <div class="col-md-10 main">
+        <div class="row">
+          <div class="col-md-10">
+            <div class="post">
+              <div class="headline"><a href="itermSSH.html">ITERM2 ssh设置代理</a></div>
+              
+              <div class="meta"><span class="time">$[timeformat('2020-03-29T03:29:03+08:00')]</span><br><span class="tags"></span></div>
+              <div class="body">
+                  <h2 id="toc_0">缘由</h2>
 
-  <div class="row">
-    <div class="col-md-9 offset-md-3">
-      <h1 class="title" itemprop="name">ITERM2 ssh设置代理</h1>
-    </div>
-  </div>
-  <div class="row content">
-    <div class="col-md-8 offset-md-4">
-      <h2 id="toc_0">缘由</h2>
-
-<p>最近自己用电脑拉github代码时候，发现速度巨慢，常常拉半天都拉不下来，更不用说使用brew去安装软件了，简直是天方夜谭，但是自己明明已经是科学上网，而且使用了全局代理，为什么还是如此缓慢呢？</p>
+<p>最近自己用电脑拉github代码时候，发现速度巨慢，常常拉半天都拉不下来，更不用说使用brew去安装软件了，简直是天方夜谭，但是自己明明已经是科学上网，而且使用了全局代理，为什么还是如此缓慢呢？<br/>
+<span id="more"></span><!-- more --></p>
 
 <h2 id="toc_1">原因</h2>
 
@@ -133,10 +152,30 @@ IP  : xx.xx.xx.xx
 数据三 : 中国广东广州 | 移动
 </code></pre>
 
+              </div>
+            </div>
+            
+            
+          </div>
+        </div>
+      </div>
     </div>
   </div>
-
-</div>     <div class="container">
+</div>
+<script>
+    let post = new Vue({
+     el: '#post',
+     data: {
+       hidelikecoin: ''
+     },
+     methods: {
+       timeformat(raw) {
+         return moment(raw).format("YYYY 年 MM 月 DD 日");
+       }
+     },
+     delimiters: ['$[', ']']
+   })
+  </script>      <div class="container">
       <hr>
       <div class="footer" id="footer">
         <div class="slogan">博客</div>
