@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width,minimum-scale=1" />
     <title>
         
-      卷毛前端日志
+      ITERM2 ssh设置代理 - 卷毛前端日志
       
     </title>
     <meta name="keywords" content="卷毛前端日志" />
@@ -66,88 +66,77 @@
         </div>
       </div>
       <hr>
-    </div> <div class="container" id="category">
-  
-    
-      <div class="article huge">
-        <div class="featureimg" style="background-image: url('https://tva1.sinaimg.cn/large/00831rSTgy1gda8b3yczyj31l50u0h35.jpg')"></div>
-        <div class="row content">
-          <div class="col-md-2"></div>
-          <div class="col-md-10 main">
-            <div class="row">
-              <div class="col-md-10 post">
-                <div class="headline"><a href="15854207316973.html">模块机制</a></div>
-                <div class="subtitle">NODE</div>
-                <div class="meta"><span class="time">$[timeformat('2020-03-29T02:38:51+08:00')]</span></div>
-                <div class="body">
-                    <blockquote>
-<p>javascript的变迁</p>
-</blockquote>
+    </div> <div class="container" id="page">
 
-<pre><code class="language-flow">st=&gt;start: 工具(浏览器兼容)
+  <div class="row">
+    <div class="col-md-9 offset-md-3">
+      <h1 class="title" itemprop="name">ITERM2 ssh设置代理</h1>
+    </div>
+  </div>
+  <div class="row content">
+    <div class="col-md-8 offset-md-4">
+      <h2 id="toc_0">缘由</h2>
 
-op=&gt;operation: 组件(功能模块)
+<p>最近自己用电脑拉github代码时候，发现速度巨慢，常常拉半天都拉不下来，更不用说使用brew去安装软件了，简直是天方夜谭，但是自己明明已经是科学上网，而且使用了全局代理，为什么还是如此缓慢呢？</p>
 
-op1=&gt;operation: 框架(功能模块组织)
+<h2 id="toc_1">原因</h2>
 
-e=&gt;end: 应用(业务模块组织)
+<p>ssh不会使用代理</p>
 
-st-&gt;op-&gt;op1-&gt;e
+<h2 id="toc_2">解决</h2>
 
+<p>打开iTerm2</p>
+
+<pre><code class="language-bash">vi ~/.zshrc
 </code></pre>
 
+<p>添加</p>
 
-                </div>
-                <div class="bottom">
-                  <a href="15854207316973.html" class="continue float-right">
-                    继续阅读
-                  </a>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="otherposts row">
-    
-  
-    
-        <div class="col-md-6">
-          <a href="15853210979386.html" class="item">
-            <div class="article normal">
-              <div class="featureimg" style="background-image: url('https://tva1.sinaimg.cn/large/00831rSTgy1gdauood666j30qe0gogmh.jpg')"></div>
-              <div class="articleinfo">
-                <div class="headline">NPM与Yarn</div>
-                <div class="subtitle">Yarn & Npm</div>
-              </div>
-            </div>
-          </a>
-        </div>
-    
-   
+<pre><code class="language-text"># 其中alias后面的名字可以随意分配
+# 端口号要根据你当前代理的端口去配置
+alias ssproxy=&#39;export http_proxy=http://127.0.0.1:1087 https_proxy=http://127.0.0.1:1087&#39;
+alias ssunproxy=&#39;unset http_proxy https_proxy&#39;
+</code></pre>
+
+<p>打开代理</p>
+
+<pre><code class="language-text">ssproxy
+</code></pre>
+
+<p>关闭代理</p>
+
+<pre><code class="language-text">ssunproxy
+</code></pre>
+
+<h2 id="toc_3">如何检测是否代理成功</h2>
+
+<p>如果代理成功，基本上是秒出</p>
+
+<pre><code class="language-bash">curl -I https://google.com
+
+HTTP/1.1 200 Connection established
+
+HTTP/2 301
+...
+</code></pre>
+
+<p>或者 -- 如果不是你本地的就代表代理成功</p>
+
+<pre><code class="language-bash">curl cip.cc
+
+IP  : xx.xx.xx.xx
+地址  : 中国  广东  广州
+运营商 : 移动
+
+数据二 : 广东省广州市 | 移动
+
+数据三 : 中国广东广州 | 移动
+</code></pre>
+
+    </div>
   </div>
-  <div class="pagenavi">
-    <div class="item">已是最新一页</div>
-    <div class="item"> · </div>
-    <div class="item">已是最旧一页</div>
-  </div>
- </div>
- <script>
-   let category = new Vue({
-    el: '#category',
-    data: {},
-    methods: {
-      indexOddandEven(index) {
-        return index%2 ? 'odd' : 'even';
-      },
-      timeformat(raw) {
-        return moment(raw).format("YYYY 年 MM 月 DD 日");
-      }
-    },
-    delimiters: ['$[', ']']
-  })
- </script>
-      <div class="container">
+
+</div>     <div class="container">
       <hr>
       <div class="footer" id="footer">
         <div class="slogan">博客</div>
