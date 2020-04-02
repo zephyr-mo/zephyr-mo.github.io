@@ -1,0 +1,184 @@
+<!doctype html>
+<html lang="zh-cn">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,minimum-scale=1" />
+    <title>
+        
+      NPM与Yarn - 卷毛前端日志
+      
+    </title>
+    <meta name="keywords" content="卷毛前端日志" />
+    
+      <meta name="twitter:card" content="summary_large_image" />
+      <meta name="twitter:creator" content="@" />
+      <meta property="og:url" content="https://zephyrmo.com/npm-yuyarnxian-lai-yi-duan-dui.html" />
+      <meta property="og:title" content="NPM与Yarn" />
+      
+        <meta property="og:description" content="Yarn & Npm" />
+        <meta name="description" content="Yarn & Npm" />
+      
+      
+        <meta property="og:image" content="https://tva1.sinaimg.cn/large/00831rSTgy1gdauood666j30qe0gogmh.jpg" />
+        <meta name="twitter:image" content="https://tva1.sinaimg.cn/large/00831rSTgy1gdauood666j30qe0gogmh.jpg" />
+      
+      <meta property="og:site_name" content="卷毛前端日志" />
+    
+    
+    <link href="atom.xml" rel="alternate" title="卷毛前端日志" type="application/atom+xml">
+    <script src="https://cdn.bootcss.com/moment.js/2.24.0/moment.min.js"></script>
+    <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="asset/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  </head>
+  <body>
+    <div class="container">
+      <div class="head">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="blogname">卷毛前端日志</div>
+            <nav>
+              
+                <div class="item"><a target="_self" href="index.html">主页</a></div>
+              
+                <div class="item"><a target="_self" href="archives.html">目录</a></div>
+              
+                <div class="item"><a target="_self" href="https://github.com/zephyr-mo">github</a></div>
+              
+                <div class="item"><a target="_self" href="page.html">page</a></div>
+              
+            </nav>
+          </div>
+        </div>
+      </div>
+      <hr>
+    </div> <div class="container" id="post">
+  <div class="article huge">
+    <div class="featureimg" style="background-image: url('https://tva1.sinaimg.cn/large/00831rSTgy1gdauood666j30qe0gogmh.jpg')"></div>
+    <img src="https://tva1.sinaimg.cn/large/00831rSTgy1gdauood666j30qe0gogmh.jpg" style="display: none;" class="featureimgforexternal">
+    <div class="timeGTM" style="display:none;">2020-03-27T22:58:17+08:00</div>
+    <div class="row content">
+      <div class="col-md-2"></div>
+      <div class="col-md-10 main">
+        <div class="row">
+          <div class="col-md-10">
+            <div class="post">
+              <div class="headline"><a href="npm-yuyarnxian-lai-yi-duan-dui.html">NPM与Yarn</a></div>
+              <div class="subtitle">Yarn & Npm</div>
+              <div class="meta"><span class="time">$[timeformat('2020-03-27T22:58:17+08:00')]</span><br><span class="tags"></span></div>
+              <div class="body">
+                  <p>先来一段对比</p>
+
+<pre><code class="language-bash"># npm
+git clone xxx
+npm install
+npm run dev
+</code></pre>
+
+<pre><code class="language-bash"># yarn
+git clone xxx
+yarn
+yarn start
+</code></pre>
+
+<h2 id="toc_0">Yarn解决了什么</h2>
+
+<blockquote>
+<p>如<a href="https://link.zhihu.com/?target=https%3A//code.facebook.com/posts/1840075619545360">官方文档</a>中写的，Yarn 是为了弥补 npm 的一些缺陷而出现的</p>
+</blockquote>
+
+<ul>
+<li><code>npm install</code>速度缓慢</li>
+<li>同一项目，安装<strong>无法保持一致性</strong>
+<ul>
+<li>版本号 <code>x.y.z</code></li>
+<li>其中<code>1.0.5</code>表示安装指定1.0.5版本，<code>~1.0.5</code>表示安装1.0.X中最新的版本，<code>^1.0.5</code>表示安装1.X.X中最新的版本</li>
+</ul></li>
+<li>在安装过程中抛错时，npm会把所有的日志输出到终端，有关错误包的错误信息就会在一大堆npm打印的警告中丢失，所以极大几率<strong>不会注意到实际发生的错误</strong></li>
+</ul>
+
+<h2 id="toc_1">Yarn的优点？</h2>
+
+<ul>
+<li><p><strong>速度快</strong> 。速度快主要来自以下两个方面：</p>
+<ol>
+<li><code>npm</code>同步安装所有包，<code>Yarn</code>异步安装所有包</li>
+<li>离线模式：如果之前已经安装过一个软件包，用Yarn再次安装时之间从缓存中获取，就不用像npm那样再从网络下载了。</li>
+</ol></li>
+<li><p>安装<strong>版本统一</strong>：为了防止拉取到不同的版本，Yarn 有一个锁定文件 (lock file) 记录了被确切安装上的模块的版本号。每次只要新增了一个模块，Yarn 就会创建（或更新）yarn.lock 这个文件。这么做就保证了，每一次拉取同一个项目依赖时，使用的都是一样的模块版本。npm 其实也有办法实现处处使用相同版本的 packages，但需要开发者执行 npm shrinkwrap 命令。这个命令将会生成一个锁定文件，在执行 npm install 的时候，该锁定文件会先被读取，和 Yarn 读取 yarn.lock 文件一个道理。npm 和 Yarn 两者的不同之处在于，Yarn 默认会生成这样的锁定文件，而 npm 要通过 shrinkwrap 命令生成 npm-shrinkwrap.json 文件，只有当这个文件存在的时候，packages 版本信息才会被记录和更新。</p></li>
+<li><p><strong>更简洁的输出</strong>：npm 的输出信息比较冗长。在执行 npm install 的时候，命令行里会不断地打印出所有被安装上的依赖。相比之下，Yarn 简洁太多：默认情况下，结合了 emoji直观且直接地打印出必要的信息，也提供了一些命令供开发者查询额外的安装信息。</p></li>
+<li><p><strong>多注册来源处理：</strong>所有的依赖包，不管他被不同的库间接关联引用多少次，安装这个包时，只会从一个注册来源去装，要么是 npm 要么是 bower, 防止出现混乱不一致。</p></li>
+<li><p><strong>更好的语义化</strong>： yarn改变了一些npm命令的名称，比如 yarn add/remove，感觉上比 npm 原本的 install/uninstall 要更清晰。</p></li>
+</ul>
+
+<h2 id="toc_2">Yarn和npm命令对比</h2>
+
+<pre><code class="language-text">npm install === yarn 
+npm install taco --save === yarn add taco
+npm uninstall taco --save === yarn remove taco
+npm install taco --save-dev === yarn add taco --dev
+npm update --save === yarn upgrade
+</code></pre>
+
+              </div>
+            </div>
+            
+            
+              <hr>
+              <div class="comment">
+                  <h1>评论</h1>
+                  <div id="lv-container" data-id="city" data-uid="MTAyMC80OTM0Mi8yNTgzNA=="></div>
+              </div>
+            
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+    let post = new Vue({
+     el: '#post',
+     data: {
+       hidelikecoin: ''
+     },
+     methods: {
+       timeformat(raw) {
+         return moment(raw).format("YYYY 年 MM 月 DD 日");
+       }
+     },
+     delimiters: ['$[', ']']
+   })
+</script>
+      <div class="container">
+      <hr>
+      <div class="footer" id="footer">
+        <div class="slogan">博客</div>
+        <div class="meta">
+          <p></p>
+        </div>
+      </div>
+      <script>
+        let footer = new Vue({
+          el: '#footer',
+          data: {
+            message: 'hello'
+          },
+          delimiters: ['$[', ']']
+        })
+      </script>
+    </div>
+  </div>
+</body>
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://cdn.bootcss.com/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://cdn.bootcss.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+<script src="https://cdn-city.livere.com/js/embed.dist.js" async ></script>
+<style></style>
+</html>
