@@ -6,20 +6,11 @@
     <meta name="viewport" content="width=device-width,minimum-scale=1" />
     <title>
         
-      感言 - 卷毛前端日志
+      前端 - 卷毛前端日志
       
     </title>
     <meta name="keywords" content="卷毛前端日志" />
     
-      <meta name="twitter:card" content="summary_large_image" />
-      <meta name="twitter:creator" content="@" />
-      <meta property="og:url" content="https://zephyrmo.com/15854829063500.html" />
-      <meta property="og:title" content="感言" />
-      
-        <meta property="og:description" content="感言" />
-      
-      
-      <meta property="og:site_name" content="卷毛前端日志" />
     
     
     <link href="atom.xml" rel="alternate" title="卷毛前端日志" type="application/atom+xml">
@@ -51,47 +42,88 @@
         </div>
       </div>
       <hr>
-    </div> <div class="container" id="post">
-  <div class="article huge">
-    <div class="featureimg" style="background-image: url('asset/defaultfeaimg.jpg')"></div>
-    <img src="" style="display: none;" class="featureimgforexternal">
-    <div class="timeGTM" style="display:none;">2020-03-29T19:55:06+08:00</div>
-    <div class="row content">
-      <div class="col-md-2"></div>
-      <div class="col-md-10 main">
-        <div class="row">
-          <div class="col-md-10">
-            <div class="post">
-              <div class="headline"><a href="15854829063500.html">感言</a></div>
-              
-              <div class="meta"><span class="time">$[timeformat('2020-03-29T19:55:06+08:00')]</span><br><span class="tags"></span></div>
-              <div class="body">
-                  <p>看看有没有新增文章</p>
+    </div> <div class="container" id="category">
+  
+    
+      <div class="article huge">
+        <div class="featureimg" style="background-image: url('https://tva1.sinaimg.cn/large/00831rSTgy1gda8b3yczyj31l50u0h35.jpg')"></div>
+        <div class="row content">
+          <div class="col-md-2"></div>
+          <div class="col-md-10 main">
+            <div class="row">
+              <div class="col-md-10 post">
+                <div class="headline"><a href="15854207316973.html">模块机制</a></div>
+                <div class="subtitle">NODE</div>
+                <div class="meta"><span class="time">$[timeformat('2020-03-29T02:38:51+08:00')]</span></div>
+                <div class="body">
+                    <blockquote>
+<p>javascript的变迁</p>
+</blockquote>
 
+<pre><code class="language-flow">st=&gt;start: 工具(浏览器兼容)
+
+op=&gt;operation: 组件(功能模块)
+
+op1=&gt;operation: 框架(功能模块组织)
+
+e=&gt;end: 应用(业务模块组织)
+
+st-&gt;op-&gt;op1-&gt;e
+
+</code></pre>
+
+
+                </div>
+                <div class="bottom">
+                  <a href="15854207316973.html" class="continue float-right">
+                    继续阅读
+                  </a>
+                </div>
               </div>
             </div>
-            
-            
           </div>
         </div>
       </div>
-    </div>
+      <div class="otherposts row">
+    
+  
+    
+        <div class="col-md-6">
+          <a href="15853210979386.html" class="item">
+            <div class="article normal">
+              <div class="featureimg" style="background-image: url('https://tva1.sinaimg.cn/large/00831rSTgy1gdauood666j30qe0gogmh.jpg')"></div>
+              <div class="articleinfo">
+                <div class="headline">NPM与Yarn</div>
+                <div class="subtitle">Yarn & Npm</div>
+              </div>
+            </div>
+          </a>
+        </div>
+    
+   
   </div>
-</div>
-<script>
-    let post = new Vue({
-     el: '#post',
-     data: {
-       hidelikecoin: ''
-     },
-     methods: {
-       timeformat(raw) {
-         return moment(raw).format("YYYY 年 MM 月 DD 日");
-       }
-     },
-     delimiters: ['$[', ']']
-   })
-  </script>      <div class="container">
+  <div class="pagenavi">
+    <div class="item">已是最新一页</div>
+    <div class="item"> · </div>
+    <div class="item">已是最旧一页</div>
+  </div>
+ </div>
+ <script>
+   let category = new Vue({
+    el: '#category',
+    data: {},
+    methods: {
+      indexOddandEven(index) {
+        return index%2 ? 'odd' : 'even';
+      },
+      timeformat(raw) {
+        return moment(raw).format("YYYY 年 MM 月 DD 日");
+      }
+    },
+    delimiters: ['$[', ']']
+  })
+ </script>
+      <div class="container">
       <hr>
       <div class="footer" id="footer">
         <div class="slogan">博客</div>

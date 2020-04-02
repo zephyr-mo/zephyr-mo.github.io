@@ -4,7 +4,7 @@
   <title><![CDATA[卷毛前端日志]]></title>
   <link href="https://zephyrmo.com/atom.xml" rel="self"/>
   <link href="https://zephyrmo.com/"/>
-  <updated>2020-03-29T19:55:34+08:00</updated>
+  <updated>2020-04-02T22:23:28+08:00</updated>
   <id>https://zephyrmo.com/</id>
   <author>
     <name><![CDATA[zephyr]]></name>
@@ -14,7 +14,7 @@
 
   
   <entry>
-    <title type="html"><![CDATA[测试文章]]></title>
+    <title type="html"><![CDATA[感言]]></title>
     <link href="https://zephyrmo.com/15854829063500.html"/>
     <meta name="description" content="zephyr" /><author><name><![CDATA[zephyr]]></name></author>
     <updated>2020-03-29T19:55:06+08:00</updated>
@@ -1130,7 +1130,7 @@ yarn start
 <ul>
 <li><p><strong>速度快</strong> 。速度快主要来自以下两个方面：</p>
 <ol>
-<li>并行安装：无论 npm 还是 Yarn 在执行包的安装时，都会执行一系列任务。npm 是按照队列执行每个 package，也就是说必须要等到当前 package 安装完成之后，才能继续后面的安装。而 Yarn 是同步执行所有任务，提高了性能。</li>
+<li><code>npm</code>同步安装所有包，<code>Yarn</code>异步安装所有包</li>
 <li>离线模式：如果之前已经安装过一个软件包，用Yarn再次安装时之间从缓存中获取，就不用像npm那样再从网络下载了。</li>
 </ol></li>
 <li><p>安装<strong>版本统一</strong>：为了防止拉取到不同的版本，Yarn 有一个锁定文件 (lock file) 记录了被确切安装上的模块的版本号。每次只要新增了一个模块，Yarn 就会创建（或更新）yarn.lock 这个文件。这么做就保证了，每一次拉取同一个项目依赖时，使用的都是一样的模块版本。npm 其实也有办法实现处处使用相同版本的 packages，但需要开发者执行 npm shrinkwrap 命令。这个命令将会生成一个锁定文件，在执行 npm install 的时候，该锁定文件会先被读取，和 Yarn 读取 yarn.lock 文件一个道理。npm 和 Yarn 两者的不同之处在于，Yarn 默认会生成这样的锁定文件，而 npm 要通过 shrinkwrap 命令生成 npm-shrinkwrap.json 文件，只有当这个文件存在的时候，packages 版本信息才会被记录和更新。</p></li>

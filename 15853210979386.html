@@ -29,31 +29,7 @@
     <link href="atom.xml" rel="alternate" title="卷毛前端日志" type="application/atom+xml">
     <script src="https://cdn.bootcss.com/moment.js/2.24.0/moment.min.js"></script>
     <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-      <!-- 来必力City版安装代码 -->
-  <script type="text/javascript">
-    (function(){
-      window.onload = function() {
-        var div = document.createElement('div');
-        div.innerHTML = 
-        '<div style=" margin: 0 100px" id="lv-container" data-id="city" data-uid="MTAyMC80OTM0Mi8yNTgzNA=="></div>'
-        document.body.appendChild(div);
-        (function (d, s) {
-        var j, e = d.getElementsByTagName(s)[0];
-
-        if (typeof LivereTower === 'function') {
-          return;
-        }
-
-        j = d.createElement(s);
-        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
-        j.async = true;
-
-        document.body.appendChild(j)
-      })(document, 'script');
-      }
-    })()
-  </script>
-  <!-- City版安装代码已完成 -->
+    
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
@@ -68,7 +44,7 @@
             <div class="blogname">卷毛前端日志</div>
             <nav>
               
-                <div class="item"><a target="_self" href="index.html">Home</a></div>
+                <div class="item"><a target="_self" href="index.html">主页</a></div>
               
                 <div class="item"><a target="_self" href="archives.html">Archives</a></div>
               
@@ -129,7 +105,7 @@ yarn start
 <ul>
 <li><p><strong>速度快</strong> 。速度快主要来自以下两个方面：</p>
 <ol>
-<li>并行安装：无论 npm 还是 Yarn 在执行包的安装时，都会执行一系列任务。npm 是按照队列执行每个 package，也就是说必须要等到当前 package 安装完成之后，才能继续后面的安装。而 Yarn 是同步执行所有任务，提高了性能。</li>
+<li><code>npm</code>同步安装所有包，<code>Yarn</code>异步安装所有包</li>
 <li>离线模式：如果之前已经安装过一个软件包，用Yarn再次安装时之间从缓存中获取，就不用像npm那样再从网络下载了。</li>
 </ol></li>
 <li><p>安装<strong>版本统一</strong>：为了防止拉取到不同的版本，Yarn 有一个锁定文件 (lock file) 记录了被确切安装上的模块的版本号。每次只要新增了一个模块，Yarn 就会创建（或更新）yarn.lock 这个文件。这么做就保证了，每一次拉取同一个项目依赖时，使用的都是一样的模块版本。npm 其实也有办法实现处处使用相同版本的 packages，但需要开发者执行 npm shrinkwrap 命令。这个命令将会生成一个锁定文件，在执行 npm install 的时候，该锁定文件会先被读取，和 Yarn 读取 yarn.lock 文件一个道理。npm 和 Yarn 两者的不同之处在于，Yarn 默认会生成这样的锁定文件，而 npm 要通过 shrinkwrap 命令生成 npm-shrinkwrap.json 文件，只有当这个文件存在的时候，packages 版本信息才会被记录和更新。</p></li>
