@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width,minimum-scale=1" />
     <title>
         
-      Archives - 卷毛前端日志
+      卷毛前端日志
       
     </title>
     <meta name="keywords" content="卷毛前端日志" />
@@ -44,54 +44,88 @@
         </div>
       </div>
       <hr>
-    </div> <div class="container archives">
-    <h1>存档</h1>
+    </div> <div class="container" id="category">
+  
     
-		 
-		  	<h2 class="yeartitle">2020</h2>
-		
-		
-        <article>
-            <span><a href="15866846017851.html">![头图-c200](https://tva1.sinaimg.cn/large/007S8ZIlgy1gdr4jn8m09j30u00u01hh.jpg)</a> / 2020 4月 12</span>
-        </article>
- 	
-		
-		
-        <article>
-            <span><a href="15866769963594.html">Webpack工作原理</a> / 2020 4月 12</span>
-        </article>
- 	
-		
-		
-        <article>
-            <span><a href="15862724424051.html">Webpack入门</a> / 2020 4月 07</span>
-        </article>
- 	
-		
-		
-        <article>
-            <span><a href="15854829063500.html">介绍一个快速切换npm源的小工具</a> / 2020 3月 29</span>
-        </article>
- 	
-		
-		
-        <article>
-            <span><a href="itermSSH.html">ITERM2 ssh设置代理</a> / 2020 3月 29</span>
-        </article>
- 	
-		
-		
-        <article>
-            <span><a href="mo-kuai-ji-zhi--javascript-de.html">模块机制</a> / 2020 3月 29</span>
-        </article>
- 	
-		
-		
-        <article>
-            <span><a href="npm-yuyarnxian-lai-yi-duan-dui.html">NPM与Yarn</a> / 2020 3月 27</span>
-        </article>
- 	 
-</div>      <div class="container">
+      <div class="article huge">
+        <div class="featureimg" style="background-image: url('https://tva1.sinaimg.cn/large/00831rSTgy1gda8b3yczyj31l50u0h35.jpg')"></div>
+        <div class="row content">
+          <div class="col-md-2"></div>
+          <div class="col-md-10 main">
+            <div class="row">
+              <div class="col-md-10 post">
+                <div class="headline"><a href="mo-kuai-ji-zhi--javascript-de.html">模块机制</a></div>
+                <div class="subtitle">NODE</div>
+                <div class="meta"><span class="time">$[timeformat('2020-03-29T02:38:51+08:00')]</span></div>
+                <div class="body">
+                    <blockquote>
+<p>javascript的变迁</p>
+</blockquote>
+
+<pre><code class="language-flow">st=&gt;start: 工具(浏览器兼容)
+
+op=&gt;operation: 组件(功能模块)
+
+op1=&gt;operation: 框架(功能模块组织)
+
+e=&gt;end: 应用(业务模块组织)
+
+st-&gt;op-&gt;op1-&gt;e
+
+</code></pre>
+
+
+                </div>
+                <div class="bottom">
+                  <a href="mo-kuai-ji-zhi--javascript-de.html" class="continue float-right">
+                    继续阅读
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="otherposts row">
+    
+  
+    
+        <div class="col-md-6">
+          <a href="npm-yuyarnxian-lai-yi-duan-dui.html" class="item">
+            <div class="article normal">
+              <div class="featureimg" style="background-image: url('https://tva1.sinaimg.cn/large/00831rSTgy1gdauood666j30qe0gogmh.jpg')"></div>
+              <div class="articleinfo">
+                <div class="headline">NPM与Yarn</div>
+                <div class="subtitle">Yarn & Npm</div>
+              </div>
+            </div>
+          </a>
+        </div>
+    
+   
+  </div>
+  <div class="pagenavi">
+    <div class="item"><a href="all.html">更新文章</a></div>
+    <div class="item"> · </div>
+    <div class="item">已是最旧一页</div>
+  </div>
+ </div>
+ <script>
+   let category = new Vue({
+    el: '#category',
+    data: {},
+    methods: {
+      indexOddandEven(index) {
+        return index%2 ? 'odd' : 'even';
+      },
+      timeformat(raw) {
+        return moment(raw).format("YYYY 年 MM 月 DD 日");
+      }
+    },
+    delimiters: ['$[', ']']
+  })
+ </script>
+      <div class="container">
       <hr>
       <div class="footer" id="footer">
         <div class="slogan">博客</div>

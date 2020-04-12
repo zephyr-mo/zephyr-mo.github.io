@@ -4,7 +4,7 @@
   <title><![CDATA[卷毛前端日志]]></title>
   <link href="https://zephyrmo.com/atom.xml" rel="self"/>
   <link href="https://zephyrmo.com/"/>
-  <updated>2020-04-02T23:22:05+08:00</updated>
+  <updated>2020-04-12T18:13:10+08:00</updated>
   <id>https://zephyrmo.com/</id>
   <author>
     <name><![CDATA[zephyr]]></name>
@@ -12,6 +12,198 @@
   </author>
   <generator uri="http://www.coderforart.com/">CoderForArt</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[![头图-c200](https://tva1.sinaimg.cn/large/007S8ZIlgy1gdr4jn8m09j30u00u01hh.jpg)]]></title>
+    <link href="https://zephyrmo.com/15866846017851.html"/>
+    <meta name="description" content="zephyr" /><author><name><![CDATA[zephyr]]></name></author>
+    <updated>2020-04-12T17:43:21+08:00</updated>
+    <id>https://zephyrmo.com/15866846017851.html</id>
+    <content type="html"><![CDATA[
+    <img src="" />
+<h1 id="toc_0">编写Loader</h1>
+
+<h2 id="toc_1">Loader</h2>
+
+<h3 id="toc_2">加载本地Loader</h3>
+
+<ol>
+<li><strong>Npm link</strong>
+<ul>
+<li>确保正在开发的<code>Loader</code>的<code>package.json</code>已经配置好</li>
+<li>在本地的<code>Npm</code>模块目录执行<code>npm link</code>, 将本地模块注册到全局</li>
+<li>在项目根目录下执行<code>npm link loader-name</code>，将第二部注册到全局的本地Npm模块链接到<code>node-modules</code>下，其中的<code>loader-name</code>是指在第一步的<code>package.json</code>文件中配置的模块类型</li>
+</ul></li>
+<li><strong>ResolveLoader</strong>
+<ul>
+<li>为了让Webpack加载放在本地项目中的<code>Loader</code>，需要修改<code>resolveLoader.modules</code></li>
+<li>配置：加上以下配置后，Webpack会先去<code>node_modules</code>项目下寻找Loader，如果找不到再去<code>./loaders/</code>目录下寻找</li>
+</ul></li>
+</ol>
+
+<pre><code class="language-javascript">module.exports = {
+    resolveLoader: {
+        // 去哪些目录下寻找Loader，有先后顺序之分
+        modules: [&#39;node_modules&#39;, &#39;./loaders/&#39;],
+    }
+}
+</code></pre>
+
+<h3 id="toc_3">Loader实战</h3>
+
+<blockquote>
+<p>comment-require-loader</p>
+</blockquote>
+
+<p>作用是将<code>JavaScript</code>代码中的注释语法：<br/>
+<code>@require &#39;../style/index.css&#39;</code><br/>
+转换成：<br/>
+<code>require(&#39;../style/index.css&#39;)</code></p>
+
+<h5 id="toc_4">使用方法</h5>
+
+<pre><code class="language-javascript">    module.exports = {
+        module: {
+            loaders: [
+                {
+                    test: /\.js$/,
+                    loaders: [&#39;comment-require-loader&#39;],
+                    include: [path.resovle(__dirname, &#39;node_modules/imui&#39;)]
+                }
+            ]
+        }
+    }
+</code></pre>
+
+<h5 id="toc_5">实现</h5>
+
+<pre><code class="language-javascript">    function replace(source) {
+        var replaceReg = //(\/\/ *@require) +((&#39;|&quot;).+(&#39;|&quot;)).*/;
+        var replaceStr = source.replace(replaceReg, &#39;require($2)&#39;);
+    }
+    
+    module.exports = function (content) {
+        return replace(content);
+    }
+</code></pre>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Webpack工作原理]]></title>
+    <link href="https://zephyrmo.com/15866769963594.html"/>
+    <meta name="description" content="zephyr" /><author><name><![CDATA[zephyr]]></name></author>
+    <updated>2020-04-12T15:36:36+08:00</updated>
+    <id>https://zephyrmo.com/15866769963594.html</id>
+    <content type="html"><![CDATA[
+    <img src="" />
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1gdr166ygivj31bs0p03yq.jpg" alt="webpack"/></p>
+
+<h2 id="toc_0">基本概念</h2>
+
+<ul>
+<li><strong>Entry</strong>：入口， Webpack执行构建的第一步从Entry开始，可抽象成输入</li>
+<li><strong>Module</strong>：模块，在Webpack里一切皆模块，一个模块对应一个文件。Webpack会从配置的Entry开始，递归找出所有依赖的模块</li>
+<li><strong>Chunk</strong>：代码块，一个Chunk由多个模块组合而成你，用于代码合并于分割</li>
+<li><strong>Loader</strong>：模块转换器，用于将模块的原内容按照需求转换成新内容</li>
+<li><strong>Plugin</strong>：扩展插件，在Webpack构建流程中的特定时机广播对应的事件，插件可以监听这些事件的发生，在特定的时机做对应的事情</li>
+</ul>
+
+<h2 id="toc_1">流程概括</h2>
+
+<p><code>初始化参数</code>-&gt;<code>开始编译</code><br/>
+<code>确定入口</code>-&gt;<code>编译模块</code><br/>
+<code>完成模块编译</code>-&gt;<code>输出资源</code>-&gt;<code>输出完成</code></p>
+
+<hr/>
+
+<ul>
+<li>初始化参数
+<ul>
+<li>从配置文件和Shell语句中读取与合并参数，得出最终的参数</li>
+</ul></li>
+<li>开始编译
+<ul>
+<li>用上一步得到的参数初始化Complier对象，加载所有配置的插件，通过执行对象的run方法开始执行编译</li>
+</ul></li>
+<li>确定入口
+<ul>
+<li>根据配置中的entry找出所有入口文件</li>
+</ul></li>
+<li>编译模块
+<ul>
+<li>从入口文件出发，调用所有配置的Loader对模块进行编译，再找出该模块依赖的模块，再递归本步骤知道所有入口依赖的文件都经过了本步骤的处理</li>
+</ul></li>
+<li>完成模块编译
+<ul>
+<li>在经过第四步使用Loader翻译所有模块后，得到每个模块被翻译后的最终内容及它们之间的依赖关系</li>
+</ul></li>
+<li>输出资源
+<ul>
+<li>根据入口和模块之间的依赖关系，组装成一个个包含多个模块的Chunk，再将每个Chunk转换成一个单独的文件加入输出列表中，这是可以修改输出内容的最后机会。</li>
+</ul></li>
+<li>输出完成
+<ul>
+<li>在确定好输出内容后，根据配置确定输出的路径和文件名，将文件的内容写入文件系统中</li>
+</ul></li>
+</ul>
+
+<h3 id="toc_2">监听模式的构建流程图</h3>
+
+<pre><code class="language-flow">st=&gt;start: 初始化
+op=&gt;operation: 编译
+cond=&gt;condition: 文件发生变化
+e=&gt;end: 输出
+st-&gt;op-&gt;e-&gt;cond
+cond(yes)-&gt;op
+</code></pre>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Webpack入门]]></title>
+    <link href="https://zephyrmo.com/15862724424051.html"/>
+    <meta name="description" content="zephyr" /><author><name><![CDATA[zephyr]]></name></author>
+    <updated>2020-04-07T23:14:02+08:00</updated>
+    <id>https://zephyrmo.com/15862724424051.html</id>
+    <content type="html"><![CDATA[
+    <img src="https://tva1.sinaimg.cn/large/00831rSTgy1gdlm03mixpj31jk0lm75k.jpg" />
+<p><img src="https://tva1.sinaimg.cn/large/00831rSTgy1gdlm03mixpj31jk0lm75k.jpg" alt=""/></p>
+
+<h2 id="toc_0">老生常谈模块化</h2>
+
+<ul>
+<li><p>CommonJS<br/>
+优：代码可复用于Node，做同构应用<br/>
+缺：无法直接运行在浏览器环境</p></li>
+<li><p>AMD<br/>
+优：浏览器运行、异步加载、并行加载、双环境运行(Node,Browser)<br/>
+缺：需要引入AMD库</p></li>
+<li><p>ES6模块化<br/>
+优：未来浏览器和服务器通用的模块解决方法<br/>
+缺：需要工具编译为ES5</p></li>
+</ul>
+
+<h2 id="toc_1">什么是构建</h2>
+
+<ul>
+<li>代码转换: <code>TS-&gt;JS</code></li>
+<li>文件优化: 压缩代码、合并图片..</li>
+<li>代码分割: 提取多个页面的公共代码，提取首屏不需要执行部分的代码让其异步加载</li>
+<li>模块合并: 通过构建功能将模块分类合并</li>
+<li>自动刷新: 监听本地源代码变化，自动重新构建，刷新浏览器</li>
+<li>代码校验: 检验代码规范，单元测试等</li>
+<li>自动发布: 更新代码后，自动构建出线上发布代码并传输到发布系统</li>
+</ul>
+
+<h2 id="toc_2">构建工具</h2>
+
+<p><code>Npm Script</code>、<code>Grunt</code>、<code>Gulp</code>、<code>Fis3</code>、<code>Webpack</code>、<code>Rollup</code></p>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[介绍一个快速切换npm源的小工具]]></title>

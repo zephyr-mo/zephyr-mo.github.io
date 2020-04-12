@@ -1,0 +1,188 @@
+<!doctype html>
+<html lang="zh-cn">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,minimum-scale=1" />
+    <title>
+        
+      Webpack工作原理 - 卷毛前端日志
+      
+    </title>
+    <meta name="keywords" content="卷毛前端日志" />
+    
+      <meta name="twitter:card" content="summary_large_image" />
+      <meta name="twitter:creator" content="@" />
+      <meta property="og:url" content="https://zephyrmo.com/15866769963594.html" />
+      <meta property="og:title" content="Webpack工作原理" />
+      
+        <meta property="og:description" content="Webpack工作原理" />
+      
+      
+      <meta property="og:site_name" content="卷毛前端日志" />
+    
+    
+    <link href="atom.xml" rel="alternate" title="卷毛前端日志" type="application/atom+xml">
+    <script src="https://cdn.bootcss.com/moment.js/2.24.0/moment.min.js"></script>
+    <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="asset/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  </head>
+  <body>
+    <div class="container">
+      <div class="head">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="blogname">卷毛前端日志</div>
+            <nav>
+              
+                <div class="item"><a target="_self" href="index.html">主页</a></div>
+              
+                <div class="item"><a target="_self" href="archives.html">目录</a></div>
+              
+                <div class="item"><a target="_self" href="https://github.com/zephyr-mo">github</a></div>
+              
+                <div class="item"><a target="_self" href="page.html">page</a></div>
+              
+            </nav>
+          </div>
+        </div>
+      </div>
+      <hr>
+    </div> <div class="container" id="post">
+  <div class="article huge">
+    <div class="featureimg" style="background-image: url('asset/defaultfeaimg.jpg')"></div>
+    <img src="" style="display: none;" class="featureimgforexternal">
+    <div class="timeGTM" style="display:none;">2020-04-12T15:36:36+08:00</div>
+    <div class="row content">
+      <div class="col-md-2"></div>
+      <div class="col-md-10 main">
+        <div class="row">
+          <div class="col-md-10">
+            <div class="post">
+              <div class="headline"><a href="15866769963594.html">Webpack工作原理</a></div>
+              
+              <div class="meta"><span class="time">$[timeformat('2020-04-12T15:36:36+08:00')]</span><br><span class="tags"></span></div>
+              <div class="body">
+                  <p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1gdr166ygivj31bs0p03yq.jpg" alt="webpack"/></p>
+
+<h2 id="toc_0">基本概念</h2>
+
+<ul>
+<li><strong>Entry</strong>：入口， Webpack执行构建的第一步从Entry开始，可抽象成输入</li>
+<li><strong>Module</strong>：模块，在Webpack里一切皆模块，一个模块对应一个文件。Webpack会从配置的Entry开始，递归找出所有依赖的模块</li>
+<li><strong>Chunk</strong>：代码块，一个Chunk由多个模块组合而成你，用于代码合并于分割</li>
+<li><strong>Loader</strong>：模块转换器，用于将模块的原内容按照需求转换成新内容</li>
+<li><strong>Plugin</strong>：扩展插件，在Webpack构建流程中的特定时机广播对应的事件，插件可以监听这些事件的发生，在特定的时机做对应的事情</li>
+</ul>
+
+<h2 id="toc_1">流程概括</h2>
+
+<p><code>初始化参数</code>-&gt;<code>开始编译</code><br/>
+<code>确定入口</code>-&gt;<code>编译模块</code><br/>
+<code>完成模块编译</code>-&gt;<code>输出资源</code>-&gt;<code>输出完成</code></p>
+
+<hr/>
+
+<ul>
+<li>初始化参数
+<ul>
+<li>从配置文件和Shell语句中读取与合并参数，得出最终的参数</li>
+</ul></li>
+<li>开始编译
+<ul>
+<li>用上一步得到的参数初始化Complier对象，加载所有配置的插件，通过执行对象的run方法开始执行编译</li>
+</ul></li>
+<li>确定入口
+<ul>
+<li>根据配置中的entry找出所有入口文件</li>
+</ul></li>
+<li>编译模块
+<ul>
+<li>从入口文件出发，调用所有配置的Loader对模块进行编译，再找出该模块依赖的模块，再递归本步骤知道所有入口依赖的文件都经过了本步骤的处理</li>
+</ul></li>
+<li>完成模块编译
+<ul>
+<li>在经过第四步使用Loader翻译所有模块后，得到每个模块被翻译后的最终内容及它们之间的依赖关系</li>
+</ul></li>
+<li>输出资源
+<ul>
+<li>根据入口和模块之间的依赖关系，组装成一个个包含多个模块的Chunk，再将每个Chunk转换成一个单独的文件加入输出列表中，这是可以修改输出内容的最后机会。</li>
+</ul></li>
+<li>输出完成
+<ul>
+<li>在确定好输出内容后，根据配置确定输出的路径和文件名，将文件的内容写入文件系统中</li>
+</ul></li>
+</ul>
+
+<h3 id="toc_2">监听模式的构建流程图</h3>
+
+<pre><code class="language-flow">st=&gt;start: 初始化
+op=&gt;operation: 编译
+cond=&gt;condition: 文件发生变化
+e=&gt;end: 输出
+st-&gt;op-&gt;e-&gt;cond
+cond(yes)-&gt;op
+</code></pre>
+
+              </div>
+            </div>
+            
+            
+              <hr>
+              <div class="comment">
+                  <h1>评论</h1>
+                  <div id="lv-container" data-id="city" data-uid="MTAyMC80OTM0Mi8yNTgzNA=="></div>
+              </div>
+            
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+    let post = new Vue({
+     el: '#post',
+     data: {
+       hidelikecoin: ''
+     },
+     methods: {
+       timeformat(raw) {
+         return moment(raw).format("YYYY 年 MM 月 DD 日");
+       }
+     },
+     delimiters: ['$[', ']']
+   })
+</script>
+      <div class="container">
+      <hr>
+      <div class="footer" id="footer">
+        <div class="slogan">博客</div>
+        <div class="meta">
+          <p></p>
+        </div>
+      </div>
+      <script>
+        let footer = new Vue({
+          el: '#footer',
+          data: {
+            message: 'hello'
+          },
+          delimiters: ['$[', ']']
+        })
+      </script>
+    </div>
+  </div>
+</body>
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://cdn.bootcss.com/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://cdn.bootcss.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+<script src="https://cdn-city.livere.com/js/embed.dist.js" async ></script>
+<style></style>
+</html>

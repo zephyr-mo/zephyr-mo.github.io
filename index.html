@@ -54,26 +54,79 @@
           <div class="col-md-10 main">
             <div class="row">
               <div class="col-md-10 post">
-                <div class="headline"><a href="15854829063500.html">介绍一个快速切换npm源的小工具</a></div>
+                <div class="headline"><a href="15866846017851.html">![头图-c200](https://tva1.sinaimg.cn/large/007S8ZIlgy1gdr4jn8m09j30u00u01hh.jpg)</a></div>
                 
-                <div class="meta"><span class="time">$[timeformat('2020-03-29T19:55:06+08:00')]</span></div>
+                <div class="meta"><span class="time">$[timeformat('2020-04-12T17:43:21+08:00')]</span></div>
                 <div class="body">
-                    <pre><code class="language-bash">    npm install npm-registry-util -g
-    # yarn global add npm-registry-util
-    
-    # 运行
-    nr
-    
-    # 选择你要切换的源，回车搞定
+                    <h1 id="toc_0">编写Loader</h1>
+
+<h2 id="toc_1">Loader</h2>
+
+<h3 id="toc_2">加载本地Loader</h3>
+
+<ol>
+<li><strong>Npm link</strong>
+<ul>
+<li>确保正在开发的<code>Loader</code>的<code>package.json</code>已经配置好</li>
+<li>在本地的<code>Npm</code>模块目录执行<code>npm link</code>, 将本地模块注册到全局</li>
+<li>在项目根目录下执行<code>npm link loader-name</code>，将第二部注册到全局的本地Npm模块链接到<code>node-modules</code>下，其中的<code>loader-name</code>是指在第一步的<code>package.json</code>文件中配置的模块类型</li>
+</ul></li>
+<li><strong>ResolveLoader</strong>
+<ul>
+<li>为了让Webpack加载放在本地项目中的<code>Loader</code>，需要修改<code>resolveLoader.modules</code></li>
+<li>配置：加上以下配置后，Webpack会先去<code>node_modules</code>项目下寻找Loader，如果找不到再去<code>./loaders/</code>目录下寻找</li>
+</ul></li>
+</ol>
+
+<pre><code class="language-javascript">module.exports = {
+    resolveLoader: {
+        // 去哪些目录下寻找Loader，有先后顺序之分
+        modules: [&#39;node_modules&#39;, &#39;./loaders/&#39;],
+    }
+}
 </code></pre>
 
-<h4 id="toc_0">附上npm地址</h4>
+<h3 id="toc_3">Loader实战</h3>
 
-<p><a href="https://www.npmjs.com/package/npm-registry-util">https://www.npmjs.com/package/npm-registry-util</a></p>
+<blockquote>
+<p>comment-require-loader</p>
+</blockquote>
+
+<p>作用是将<code>JavaScript</code>代码中的注释语法：<br/>
+<code>@require &#39;../style/index.css&#39;</code><br/>
+转换成：<br/>
+<code>require(&#39;../style/index.css&#39;)</code></p>
+
+<h5 id="toc_4">使用方法</h5>
+
+<pre><code class="language-javascript">    module.exports = {
+        module: {
+            loaders: [
+                {
+                    test: /\.js$/,
+                    loaders: [&#39;comment-require-loader&#39;],
+                    include: [path.resovle(__dirname, &#39;node_modules/imui&#39;)]
+                }
+            ]
+        }
+    }
+</code></pre>
+
+<h5 id="toc_5">实现</h5>
+
+<pre><code class="language-javascript">    function replace(source) {
+        var replaceReg = //(\/\/ *@require) +((&#39;|&quot;).+(&#39;|&quot;)).*/;
+        var replaceStr = source.replace(replaceReg, &#39;require($2)&#39;);
+    }
+    
+    module.exports = function (content) {
+        return replace(content);
+    }
+</code></pre>
 
                 </div>
                 <div class="bottom">
-                  <a href="15854829063500.html" class="continue float-right">
+                  <a href="15866846017851.html" class="continue float-right">
                     继续阅读
                   </a>
                 </div>
@@ -83,6 +136,48 @@
         </div>
       </div>
       <div class="otherposts row">
+    
+  
+    
+        <div class="col-md-6">
+          <a href="15866769963594.html" class="item">
+            <div class="article normal">
+              <div class="featureimg" style="background-image: url('asset/defaultfeaimg.jpg')"></div>
+              <div class="articleinfo">
+                <div class="headline">Webpack工作原理</div>
+                
+              </div>
+            </div>
+          </a>
+        </div>
+    
+  
+    
+        <div class="col-md-6">
+          <a href="15862724424051.html" class="item">
+            <div class="article normal">
+              <div class="featureimg" style="background-image: url('https://tva1.sinaimg.cn/large/00831rSTgy1gdlm03mixpj31jk0lm75k.jpg')"></div>
+              <div class="articleinfo">
+                <div class="headline">Webpack入门</div>
+                
+              </div>
+            </div>
+          </a>
+        </div>
+    
+  
+    
+        <div class="col-md-6">
+          <a href="15854829063500.html" class="item">
+            <div class="article normal">
+              <div class="featureimg" style="background-image: url('asset/defaultfeaimg.jpg')"></div>
+              <div class="articleinfo">
+                <div class="headline">介绍一个快速切换npm源的小工具</div>
+                
+              </div>
+            </div>
+          </a>
+        </div>
     
   
     
@@ -98,40 +193,12 @@
           </a>
         </div>
     
-  
-    
-        <div class="col-md-6">
-          <a href="mo-kuai-ji-zhi--javascript-de.html" class="item">
-            <div class="article normal">
-              <div class="featureimg" style="background-image: url('https://tva1.sinaimg.cn/large/00831rSTgy1gda8b3yczyj31l50u0h35.jpg')"></div>
-              <div class="articleinfo">
-                <div class="headline">模块机制</div>
-                <div class="subtitle">NODE</div>
-              </div>
-            </div>
-          </a>
-        </div>
-    
-  
-    
-        <div class="col-md-6">
-          <a href="npm-yuyarnxian-lai-yi-duan-dui.html" class="item">
-            <div class="article normal">
-              <div class="featureimg" style="background-image: url('https://tva1.sinaimg.cn/large/00831rSTgy1gdauood666j30qe0gogmh.jpg')"></div>
-              <div class="articleinfo">
-                <div class="headline">NPM与Yarn</div>
-                <div class="subtitle">Yarn & Npm</div>
-              </div>
-            </div>
-          </a>
-        </div>
-    
    
   </div>
   <div class="pagenavi">
     <div class="item">已是最新一页</div>
     <div class="item"> · </div>
-    <div class="item">已是最旧一页</div>
+    <div class="item"><a href="all_1.html">旧有文章</a></div>
   </div>
  </div>
  <script>
