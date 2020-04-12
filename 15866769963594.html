@@ -80,14 +80,13 @@
 <li><strong>Module</strong>：模块，在Webpack里一切皆模块，一个模块对应一个文件。Webpack会从配置的Entry开始，递归找出所有依赖的模块</li>
 <li><strong>Chunk</strong>：代码块，一个Chunk由多个模块组合而成你，用于代码合并于分割</li>
 <li><strong>Loader</strong>：模块转换器，用于将模块的原内容按照需求转换成新内容</li>
-<li><strong>Plugin</strong>：扩展插件，在Webpack构建流程中的特定时机广播对应的事件，插件可以监听这些事件的发生，在特定的时机做对应的事情</li>
+<li><strong>Plugin</strong>：扩展插件，在Webpack构建流程中的特定时机广播对应的事件，插件可以监听这些事件的发生，在特定的时机做对应的事情
+<span id="more"></span><!-- more -->
+## 流程概括
+<code>初始化参数</code>-&gt;<code>开始编译</code>
+<code>确定入口</code>-&gt;<code>编译模块</code>
+<code>完成模块编译</code>-&gt;<code>输出资源</code>-&gt;<code>输出完成</code></li>
 </ul>
-
-<h2 id="toc_1">流程概括</h2>
-
-<p><code>初始化参数</code>-&gt;<code>开始编译</code><br/>
-<code>确定入口</code>-&gt;<code>编译模块</code><br/>
-<code>完成模块编译</code>-&gt;<code>输出资源</code>-&gt;<code>输出完成</code></p>
 
 <hr/>
 
@@ -122,7 +121,7 @@
 </ul></li>
 </ul>
 
-<h3 id="toc_2">监听模式的构建流程图</h3>
+<h3 id="toc_1">监听模式的构建流程图</h3>
 
 <pre><code class="language-flow">st=&gt;start: 初始化
 op=&gt;operation: 编译
@@ -131,8 +130,6 @@ e=&gt;end: 输出
 st-&gt;op-&gt;e-&gt;cond
 cond(yes)-&gt;op
 </code></pre>
-
-<span id="more"></span><!-- more -->
 
               </div>
             </div>

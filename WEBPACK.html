@@ -86,44 +86,6 @@
 }
 </code></pre>
 
-<h3 id="toc_3">Loader实战</h3>
-
-<blockquote>
-<p>comment-require-loader</p>
-</blockquote>
-
-<p>作用是将<code>JavaScript</code>代码中的注释语法：<br/>
-<code>@require &#39;../style/index.css&#39;</code><br/>
-转换成：<br/>
-<code>require(&#39;../style/index.css&#39;)</code></p>
-
-<h5 id="toc_4">使用方法</h5>
-
-<pre><code class="language-javascript">    module.exports = {
-        module: {
-            loaders: [
-                {
-                    test: /\.js$/,
-                    loaders: [&#39;comment-require-loader&#39;],
-                    include: [path.resovle(__dirname, &#39;node_modules/imui&#39;)]
-                }
-            ]
-        }
-    }
-</code></pre>
-
-<h5 id="toc_5">实现</h5>
-
-<pre><code class="language-javascript">    function replace(source) {
-        var replaceReg = //(\/\/ *@require) +((&#39;|&quot;).+(&#39;|&quot;)).*/;
-        var replaceStr = source.replace(replaceReg, &#39;require($2)&#39;);
-    }
-    
-    module.exports = function (content) {
-        return replace(content);
-    }
-</code></pre>
-
 
                 </div>
                 <div class="bottom">
