@@ -4,23 +4,123 @@
   <title><![CDATA[卷毛前端日志]]></title>
   <link href="https://zephyrmo.com/atom.xml" rel="self"/>
   <link href="https://zephyrmo.com/"/>
-  <updated>2020-04-18T20:20:35+08:00</updated>
+  <updated>2020-04-19T18:47:13+08:00</updated>
   <id>https://zephyrmo.com/</id>
   <author>
-    <name><![CDATA[zephyr]]></name>
+    <name><![CDATA[]]></name>
     
   </author>
-  <generator uri="http://www.coderforart.com/">CoderForArt</generator>
+  <generator uri="http://www.mweb.im/">MWeb</generator>
+  
+  <entry>
+    <title type="html"><![CDATA[NGINX使用]]></title>
+    <link href="https://zephyrmo.com/15872809481255.html"/>
+    <updated>2020-04-19T15:22:28+08:00</updated>
+    <id>https://zephyrmo.com/15872809481255.html</id>
+    <content type="html"><![CDATA[
+<h3 id="toc_0">ubuntu安装最新的nginx</h3>
 
+<pre><code class="language-text"> sudo wget http://nginx.org/keys/nginx_signing.key
+ sudo apt-key add nginx_signing.key
+</code></pre>
+
+<pre><code class="language-text"> # 追加两行
+ sudo vim /etc/apt/sources.list
+</code></pre>
+
+<p><strong>bionic</strong>是需要根据你ubuntu的版本去设置的</p>
+
+<p><a href="http://nginx.org/en/linux_packages.html#stable">查看对应的NGINX版本</a></p>
+
+<pre><code class="language-text"> deb http://nginx.org/packages/ubuntu/ bionic nginx
+ deb-src http://nginx.org/packages/ubuntu/ bionic nginx
+</code></pre>
+
+<h3 id="toc_1">设置完<code>sources.list</code>后操作</h3>
+
+<pre><code class="language-text"> sudo apt-get update
+ sudo apt-get install nginx
+</code></pre>
+
+<h3 id="toc_2">查看版本号</h3>
+
+<pre><code class="language-text">nginx -v
+</code></pre>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[ubuntu安装ftp服务]]></title>
+    <link href="https://zephyrmo.com/15871839873655.html"/>
+    <updated>2020-04-18T12:26:27+08:00</updated>
+    <id>https://zephyrmo.com/15871839873655.html</id>
+    <content type="html"><![CDATA[
+<p>1、安装</p>
+
+<pre><code class="language-text">sudo apt-get install vsftpd
+</code></pre>
+
+<p>2、卸载</p>
+
+<pre><code class="language-text">sudo apt-get purge vsftpd
+</code></pre>
+
+<p>3、创建ftp用户</p>
+
+<pre><code class="language-text">创建用户目录 sudo mkdir /home/你的目录
+创建用户 sudo useradd -d /home/你的目录 -s /bin/bash 你的用户名
+修改密码 sudo passwd 你的用户名
+</code></pre>
+
+<p>4、配置vsftpd.conf</p>
+
+<pre><code class="language-text">userlist_deny=NO
+userlist_enable=YES
+#允许登录的用户
+userlist_file=/etc/allowed_users
+seccomp_sandbox=NO
+#默认ftp下载目录
+local_root=/home/你的目录/
+
+local_enable=YES
+#设置文件上传
+write_enable=YES
+#使用utf8
+utf8_filesystem=YES
+</code></pre>
+
+<p>5、启动停止服务</p>
+
+<pre><code class="language-text">sudo /etc/init.d/vsftpd start
+sudo /etc/init.d/vsftpd stop
+sudo /etc/init.d/vsftpd restart
+</code></pre>
+
+<p>6、访问ftp服务器</p>
+
+<pre><code class="language-text">sudo ftp localhost
+
+ftp://your_ip_address
+</code></pre>
+
+<p>7、上传文件</p>
+
+<pre><code class="language-text"># 在本地ftp进入远程服务器后
+put [local_file] [remote_file]
+# put /usr/local/1.txt 1.txt
+# 请确保有读写权限，否则会报500
+</code></pre>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[]]></title>
     <link href="https://zephyrmo.com/15866846017851.html"/>
-    <meta name="description" content="zephyr" /><author><name><![CDATA[zephyr]]></name></author>
     <updated>2020-04-12T17:43:21+08:00</updated>
     <id>https://zephyrmo.com/15866846017851.html</id>
     <content type="html"><![CDATA[
-    <img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1gdr4jn8m09j30u00u01hh.jpg" />
 <h1 id="toc_0">编写Loader</h1>
 
 <h2 id="toc_1">Loader</h2>
@@ -95,11 +195,9 @@
   <entry>
     <title type="html"><![CDATA[Webpack工作原理]]></title>
     <link href="https://zephyrmo.com/15866769963594.html"/>
-    <meta name="description" content="zephyr" /><author><name><![CDATA[zephyr]]></name></author>
     <updated>2020-04-12T15:36:36+08:00</updated>
     <id>https://zephyrmo.com/15866769963594.html</id>
     <content type="html"><![CDATA[
-    <img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1gdr166ygivj31bs0p03yq.jpg" />
 <p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1gdr166ygivj31bs0p03yq.jpg" alt="webpack"/></p>
 
 <h2 id="toc_0">基本概念</h2>
@@ -166,11 +264,9 @@ cond(yes)-&gt;op
   <entry>
     <title type="html"><![CDATA[Webpack入门]]></title>
     <link href="https://zephyrmo.com/15862724424051.html"/>
-    <meta name="description" content="zephyr" /><author><name><![CDATA[zephyr]]></name></author>
     <updated>2020-04-07T23:14:02+08:00</updated>
     <id>https://zephyrmo.com/15862724424051.html</id>
     <content type="html"><![CDATA[
-    <img src="https://tva1.sinaimg.cn/large/00831rSTgy1gdlm03mixpj31jk0lm75k.jpg" />
 <p><img src="https://tva1.sinaimg.cn/large/00831rSTgy1gdlm03mixpj31jk0lm75k.jpg" alt=""/></p>
 
 <h2 id="toc_0">老生常谈模块化</h2>
@@ -209,11 +305,9 @@ cond(yes)-&gt;op
   <entry>
     <title type="html"><![CDATA[介绍一个快速切换npm源的小工具]]></title>
     <link href="https://zephyrmo.com/15854829063500.html"/>
-    <meta name="description" content="zephyr" /><author><name><![CDATA[zephyr]]></name></author>
     <updated>2020-03-29T19:55:06+08:00</updated>
     <id>https://zephyrmo.com/15854829063500.html</id>
     <content type="html"><![CDATA[
-    <img src="" />
 <pre><code class="language-bash">    npm install npm-registry-util -g
     # yarn global add npm-registry-util
     
@@ -233,11 +327,9 @@ cond(yes)-&gt;op
   <entry>
     <title type="html"><![CDATA[ITERM2 ssh设置代理]]></title>
     <link href="https://zephyrmo.com/itermSSH.html"/>
-    <meta name="description" content="zephyr" /><author><name><![CDATA[zephyr]]></name></author>
     <updated>2020-03-29T03:29:03+08:00</updated>
     <id>https://zephyrmo.com/itermSSH.html</id>
     <content type="html"><![CDATA[
-    <img src="https://tva1.sinaimg.cn/large/00831rSTgy1gdaw477ofyj318g0hcjsg.jpg" />
 <h2 id="toc_0">缘由</h2>
 
 <p>最近自己用电脑拉github代码时候，发现速度巨慢，常常拉半天都拉不下来，更不用说使用brew去安装软件了，简直是天方夜谭，但是自己明明已经是科学上网，而且使用了全局代理，为什么还是如此缓慢呢？<br/>
@@ -303,11 +395,9 @@ IP  : xx.xx.xx.xx
   <entry>
     <title type="html"><![CDATA[模块机制]]></title>
     <link href="https://zephyrmo.com/mo-kuai-ji-zhi--javascript-de.html"/>
-    <meta name="description" content="zephyr" /><author><name><![CDATA[zephyr]]></name></author>
     <updated>2020-03-29T02:38:51+08:00</updated>
     <id>https://zephyrmo.com/mo-kuai-ji-zhi--javascript-de.html</id>
     <content type="html"><![CDATA[
-    <img src="https://tva1.sinaimg.cn/large/00831rSTgy1gda8b3yczyj31l50u0h35.jpg" />
 <blockquote>
 <p>javascript的变迁</p>
 </blockquote>
@@ -1294,11 +1384,9 @@ define(function (require, exports, module) {<br/>
   <entry>
     <title type="html"><![CDATA[NPM与Yarn]]></title>
     <link href="https://zephyrmo.com/npm-yuyarnxian-lai-yi-duan-dui.html"/>
-    <meta name="description" content="zephyr" /><author><name><![CDATA[zephyr]]></name></author>
     <updated>2020-03-27T22:58:17+08:00</updated>
     <id>https://zephyrmo.com/npm-yuyarnxian-lai-yi-duan-dui.html</id>
     <content type="html"><![CDATA[
-    <img src="https://tva1.sinaimg.cn/large/00831rSTgy1gdauood666j30qe0gogmh.jpg" />
 <p>先来一段对比</p>
 
 <pre><code class="language-bash"># npm
